@@ -1,0 +1,20 @@
+{
+  "name": "samoscon/controllerFramework",
+  "description": "MVC controller Framework based on book of M. Zandstra PHP 8 Objects, Patterns, and Practise Resources",
+  "keywords": [
+    "MVC",
+    "OO framework",
+    "controller"
+  ],
+  "homepage": "https://ticketingsystem.link",
+  "license": "GNU General Public License",
+  "authors": [
+    {
+      "name": "Dirk Van Meirvenne",
+      "email": "info@ticketingsystem.link"
+    }
+  ],
+    "require": {
+        "symfony/mailer": "^7.0"
+    }
+}
