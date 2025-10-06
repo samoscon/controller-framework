@@ -73,7 +73,12 @@ class LoginManager implements \audit\AuditableItem {
      * @return int Database row id or null in case the row was not found or if member is not active
      */
     public function validateUsername(string $username): int|false {
-        $sql = $this->db->prepare("SELECT id FROM member WHERE email = ? AND active = '1'");
+        $minlevel = _MINLEVELTOLOGIN;
+        if ($minlevel === 'A') {
+            $sql = $this->db->prepare("SELECT id FROM member WHERE email = ? AND role = 'A' AND active = '1'");
+        } else {
+            $sql = $this->db->prepare("SELECT id FROM member WHERE email = ? AND active = '1'");
+        }
         $sql->execute([$username]);
         $row = $sql->fetch();
         $sql->closeCursor();
@@ -150,9 +155,7 @@ class LoginManager implements \audit\AuditableItem {
      * @param boolean $requestedByAdmin False if the password requested by the Member self, true if requested by an Administrator
      */
     public function initiatePassword(int $memberid, int $pwdlength = 8, bool $requestedByAdmin = false): void {
- //       $memberMapper = \registry\Registry::instance()->getMemberMapper();
- //       $member = $memberMapper->find($memberid);
- 	$member = \model\members\Member::find($memberid);
+ 	$member = \model\Member::find($memberid);
         $memberName = $member->name;
         $memberLastName = $member->lastname;
         $password = $this->strRand($pwdlength);
@@ -168,7 +171,7 @@ Beste $memberName,<br>
 <br>       
 Uw nieuw paswoord is <b>$password</b><br>
 <br>
-Dit paswoord kan je slechts 1 maal gebruiken om in te loggen via het login scherm.<br>
+Dit paswoord kan je in de komende 24h slechts 1 maal gebruiken om in te loggen via het login scherm.<br>
 <br>
 Wanneer je in het scherm <b>Paswoord aanpassen</b> bent, zal je gevraagd worden om een eigen paswoord op te geven.<br>
 <br>
@@ -179,8 +182,6 @@ _MAIL_;
         $to = $requestedByAdmin ? $this->user->email : $member->email;
         
         \mail\Mailer::sendMail($subject, $body, _MAILTO, $to);
-        $fullname = $memberName .' '. $memberLastName;
-        $this->notifyAuditTrace(__FUNCTION__, [$fullname]);        
     }
     
     /**
