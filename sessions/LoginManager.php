@@ -73,12 +73,7 @@ class LoginManager implements \audit\AuditableItem {
      * @return int Database row id or null in case the row was not found or if member is not active
      */
     public function validateUsername(string $username): int|false {
-        $minlevel = _MINLEVELTOLOGIN;
-        if ($minlevel === 'A') {
-            $sql = $this->db->prepare("SELECT id FROM member WHERE email = ? AND role = 'A' AND active = '1'");
-        } else {
-            $sql = $this->db->prepare("SELECT id FROM member WHERE email = ? AND active = '1'");
-        }
+        $sql = $this->db->prepare("SELECT id FROM member WHERE email = ? AND active = '1'");
         $sql->execute([$username]);
         $row = $sql->fetch();
         $sql->closeCursor();
