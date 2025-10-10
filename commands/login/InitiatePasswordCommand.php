@@ -37,7 +37,14 @@ class InitiatePasswordCommand extends \controllers\Command {
             $memberid = $this->reg->getLoginManager()->validateUsername($username);
             $usernameIsFound = $memberid ? true : false;
             
-            if (!$userIsEmpty && $usernameIsFound) {
+            $member = \model\Member::find($memberid);
+            
+            if(_MINLEVELTOLOGIN === 'A' && !$member->isAdministrator()) {
+                $request->addFeedback("Je bent niet geauthoriseerd om een paswoord aan te vragen. Neem contact op met de web administrator.");
+                return self::CMD_ERROR;
+            }
+            
+           if (!$userIsEmpty && $usernameIsFound) {
                 $this->reg->getLoginManager()->initiatePassword($memberid);
                 return self::CMD_OK;
             }
