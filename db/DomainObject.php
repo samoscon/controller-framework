@@ -83,9 +83,10 @@ abstract class DomainObject {
      * Update an object on the basis of an array of properties in the database through the respective mapper of the calling class
      * 
      * @param array $properties
+     * @return \db\DomainObject
      */
-    public function update(array $properties): void {
-        self::mapper()->update($this, $properties);
+    public function update(array $properties): \db\DomainObject {
+        return self::mapper()->update($this, $properties);
     }
     
     /**
