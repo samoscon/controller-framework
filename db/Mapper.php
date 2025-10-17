@@ -117,13 +117,21 @@ abstract class Mapper implements \audit\AuditableItem {
      * 
      * @param \db\DomainObject $obj
      * @param array $updates Named array of columnnames and values
+     * @return \db\DomainObject Returns the updated Object in the database
      */
-    public function update(\db\DomainObject $obj, array $updates): void {
+    public function update(\db\DomainObject $obj, array $updates): \db\DomainObject {
+        $this->collection->detach($obj);
         $this->db->beginTransaction();
         foreach ($updates as $field => $value) {
             $this->db->exec("UPDATE  {$this->tablename()} SET $field = '$value' WHERE id = {$obj->getId()}");
         }
         $this->db->commit();
+        
+        $classname = '\\'.(new \ReflectionClass(get_called_class()))->getName();
+        $classname = str_replace("Mapper", "",$classname);
+        $updatedObj = $this->find($classname, $obj->getId());
+        $this->collection->attach($updatedObj, $obj->getId());
+        return $updatedObj;
     }
     
     /**
@@ -132,6 +140,7 @@ abstract class Mapper implements \audit\AuditableItem {
      * @param \db\DomainObject $obj
      */
     public function delete(\db\DomainObject $obj): void {
+        $this->collection->detach($obj);
         $this->db->exec("DELETE FROM {$this->tablename()} WHERE id = {$obj->getId()}");
     }
     
