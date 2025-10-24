@@ -45,7 +45,6 @@ abstract class InitController {
     public function __construct() {
         $this->reg = \registry\Registry::instance();
         $this->config = realpath("./") . "/config/app_options.ini";
-        $this->controlsfile = realpath("./") . "/config/controls.xml";
     }
     
     /**
@@ -83,6 +82,7 @@ abstract class InitController {
             define($name, $global);
         }
         
+        $this->controlsfile = realpath("./") . _CONTROLSFILE;
         $commands = $this->setupCommands($options, $this->controlsfile);
         
         $this->reg->setCommands($commands);
