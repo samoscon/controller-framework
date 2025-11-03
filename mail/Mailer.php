@@ -55,7 +55,7 @@ class Mailer {
         
         $htmlbody=
             '<html>' .
-                '<body>'.'<img src="'. _LOGO.'" alt="Logo" width="35%" /><br/>'.$body.' </body>'.
+                '<body>'.'<img src="' . _APPDIR . _LOGO .'" alt="Logo" width="35%" /><br/>'.$body.' </body>'.
             '</html>';       
         $email->html($htmlbody);
                 
