@@ -26,7 +26,7 @@ class ChangePasswordCommand extends \controllerframework\controllers\Command {
         /** variables */
         $passwordIsValid = true;
         $passwordIsEmpty = $password2IsEmpty = false;
-        $user = \sessions\User::getInstance();
+        $user = \controllerframework\sessions\User::getInstance();
 
         /** Check that the page was requested from itself via the POST method. */
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
