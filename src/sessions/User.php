@@ -33,7 +33,7 @@ class User {
     public static function getInstance(int $memberid = 0): ?Member {
         if (is_null(self::$instance)) {
             try {
-                self::$instance = \model\Member::find($memberid);            
+                self::$instance = Member::find($memberid);            
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
