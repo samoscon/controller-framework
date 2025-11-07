@@ -15,7 +15,7 @@ namespace controllerframework\sessions;
  * @link ../graphs/sessions%20Class%20Diagram.svg Sessions class diagram
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
-class UserLogin extends \controllerframework\sessions\LoginRequired {
+class UserLogin extends LoginRequired {
 
     /**
      * Checks the required member rights for a User
