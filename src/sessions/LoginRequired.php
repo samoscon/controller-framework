@@ -10,7 +10,7 @@
 namespace controllerframework\sessions;
 
 use controllerframework\registry\Registry;
-use memberactivities\model\members\Member;
+use membersactivities\model\members\Member;
 
 /**
  * Superclass to validate whether the User has a valid login into a session
