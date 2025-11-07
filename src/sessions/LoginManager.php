@@ -9,8 +9,10 @@
  */
 namespace controllerframework\sessions;
 
-use controllerframework\registry\Request;
+use controllerframework\registry\Registry;
 use controllerframework\audit\{AuditableItem, AuditableItemTrait};
+
+use membersactivities\model\members\{Member, MemberMapper};
 
 /**
  * Manages the login (including management of usernames and passwords) and the logout of a User in a session. 
@@ -44,7 +46,7 @@ class LoginManager implements AuditableItem {
      *
      * @var User Member in the session 
      */
-    protected ?\model\members\Member $user = null;
+    protected ?Member $user = null;
 
     /**
      * Constructor
@@ -65,7 +67,7 @@ class LoginManager implements AuditableItem {
      * 
      * @return User or Null
      */
-    public function getUser(): ?\model\members\Member {
+    public function getUser(): ?Member {
         return $this->user;
     }
 
@@ -120,7 +122,7 @@ class LoginManager implements AuditableItem {
      * @param int $nbrOfDays Number of days the session is kept active
      * @return \members\Member User as Member
      */
-    public function login(int $memberid, bool $keepLoggedin = true, int $nbrOfDays = 1): \model\members\Member {
+    public function login(int $memberid, bool $keepLoggedin = true, int $nbrOfDays = 1): Member {
         if ($keepLoggedin) {
             setcookie('PHPSESSID', session_id(), time() + (3600 * 24 * $nbrOfDays));
         }
@@ -153,7 +155,7 @@ class LoginManager implements AuditableItem {
      * @param boolean $requestedByAdmin False if the password requested by the Member self, true if requested by an Administrator
      */
     public function initiatePassword(int $memberid, int $pwdlength = 8, bool $requestedByAdmin = false): void {
- 	$member = \model\Member::find($memberid);
+ 	$member = Member::find($memberid);
         $memberName = $member->name;
         $memberLastName = $member->lastname;
         $password = $this->strRand($pwdlength);
@@ -188,10 +190,9 @@ _MAIL_;
      * @param \model\Member $user Current Member in the session
      * @param string $password Updated password
      */
-    public function changePassword(\model\Member $user, string $password): void {
+    public function changePassword(Member $user, string $password): void {
         $hash = $this->generateHashPassword($user->getId(), $password);
-        $reg = \registry\Registry::instance();
-        $reg->getMemberMapper()->update($user, array('password' => $hash, 'ownpwd' => '1'));
+        (new MemberMapper())->update($user, array('password' => $hash, 'ownpwd' => '1'));
         
         $this->notifyAuditTrace(__FUNCTION__, [$user->name]);        
     }
