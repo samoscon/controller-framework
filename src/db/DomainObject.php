@@ -44,7 +44,7 @@ abstract class DomainObject {
      * 
      * @param array $row Array of named data fields used to fill up the object properties
      */
-    abstract public static function getInstance(array $row): \db\DomainObject;
+    abstract public static function getInstance(array $row): DomainObject;
     
     
     /**
@@ -109,9 +109,8 @@ abstract class DomainObject {
      * @param array $properties
      */
     protected static function mapper(): Mapper {
-        $reg = \registry\Registry::instance();
-        $methodname ='get'.(new \ReflectionClass(get_called_class()))->getShortName().'Mapper'; 
-        return $reg->$methodname();
+        $classname ='\\model\\'.(new \ReflectionClass(get_called_class()))->getShortName().'Mapper'; 
+        return (new $classname);
     }
     
     /**
