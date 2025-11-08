@@ -110,6 +110,7 @@ abstract class DomainObject {
      */
     protected static function mapper(): Mapper {
         $classname ='\\model\\'.(new \ReflectionClass(get_called_class()))->getShortName().'Mapper'; 
+        $classname = str_replace('Composite', '', $classname);
         return (new $classname);
     }
     
