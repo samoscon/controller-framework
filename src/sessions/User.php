@@ -9,8 +9,6 @@
  */
 namespace controllerframework\sessions;
 
-use membersactivities\model\members\Member;
-
 /**
  * Refers to a Member (via the $memberID) that is owning the SESSION
  *
@@ -21,7 +19,7 @@ class User {
      *
      * @var Member Implements design pattern 'Singleton'
      */
-    private static ?Member $instance = null;
+    private static ?\model\Member $instance = null;
     
     
     /**
@@ -30,10 +28,10 @@ class User {
      * @param int $memberid id of a member in the database
      * @return \members\Member or null if no memberID is available in the SESSION
      */
-    public static function getInstance(int $memberid = 0): ?Member {
+    public static function getInstance(int $memberid = 0): ?\model\Member {
         if (is_null(self::$instance)) {
             try {
-                self::$instance = Member::find($memberid);            
+                self::$instance = \model\Member::find($memberid);            
             } catch (\Exception $exc) {
                 echo $exc->getTraceAsString();
             }
