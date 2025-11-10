@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<control>
+
+    <!-- paths in the login procedure -->
+    <command path="/" class="\commands\DefaultCommand">
+        <view name="/defaultView" />
+        <status value="CMD_CHANGE_PASSWORD">
+            <forward path="/changePassword" />
+        </status>
+        <status value="CMD_ERROR">
+            <view name="/errorView" />
+        </status>
+        <status value="CMD_OK">
+            <forward path="/activity" />
+        </status>
+        <status value="CMD_ADMIN">
+            <forward path="/admin" />
+        </status>
+    </command>
+    
+    <command path="/initiatePassword" class="\controllerframework\commands\login\InitiatePasswordCommand">
+        <view name="/login/initiatepasswordView" />
+        <status value="CMD_ERROR">
+            <view name="/errorView" />
+        </status>
+        <status value="CMD_OK">
+            <forward path="/confirmPassword" />
+        </status>
+    </command>
+
+    <command path="/confirmPassword" class="\controllerframework\commands\login\ConfirmPasswordCommand">
+        <view name="/login/confirmpasswordView" />
+        <status value="CMD_OK">
+            <forward path="/" />
+        </status>
+    </command>
+
+    <command path="/changePassword" class="\controllerframework\commands\login\ChangePasswordCommand">
+        <view name="/login/changepasswordView" />
+        <status value="CMD_ERROR">
+            <view name="/errorView" />
+        </status>
+        <status value="CMD_OK">
+            <forward path="/" />
+        </status>
+        <status value="CMD_ADMIN">
+            <forward path="/admin" />
+        </status>
+    </command>
+
+    <command path="/logout" class="\controllerframework\commands\login\LogoutCommand">
+        <status value="CMD_OK">
+            <forward path="/" />
+        </status>
+    </command>
+
+    <!-- paths in the member website -->
+
+       
+    <!-- paths in the admin website -->
+    <command path="/admin" class="\commands\admin\AdminHomeCommand">
+        <view name="/admin/adminhome" />
+        <status value="CMD_OK">
+            <forward path="/thenameofanotherpath" />
+        </status>
+        <status value="CMD_ERROR">
+            <view name="/errorView" />
+        </status>
+    </command>
+
+</control>
