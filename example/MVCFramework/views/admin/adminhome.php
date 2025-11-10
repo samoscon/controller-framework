@@ -19,6 +19,7 @@ $user = $request->get('user');
         <div class="container mt-3">
             <p>Welkom <?=$user->name?>. You are registered as an administrator !!!</p>
             <p>From here onward you can build your project with the controller framework.</p>
+            <p><a href='logout' class="btn btn-primary btn-block mb-4" role="button">Logout</a></p>
         </div>
     </body>
 </html>
