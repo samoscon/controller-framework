@@ -59,9 +59,6 @@ ALTER TABLE `member`
 --
 
 --
--- AUTO_INCREMENT for table `activity`
---
---
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
