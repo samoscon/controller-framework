@@ -23,6 +23,7 @@ class LogoutCommand extends \controllerframework\controllers\Command {
      * @return int
      */
     public function doExecute(\controllerframework\registry\Request $request): int {
+        //test1
         $this->reg->getLoginManager()->logout();
         return self::CMD_OK;
     }
