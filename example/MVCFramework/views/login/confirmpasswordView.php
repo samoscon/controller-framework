@@ -7,7 +7,7 @@
     <body>
         <div class="container-fluid p-3 bg-white text-black-50">
             <div class="d-flex w-100 justify-content-between">
-                 <img src="assets/bm-WHITE.jpg" alt="Brussels Muzieque" width="35%"> 
+                 <img src="assets/bm-WHITE.jpg" alt="Logo" width="35%"> 
                 <p class="text-center"><b>Feedback</b></p>
                 <p> </p>
             </div>
