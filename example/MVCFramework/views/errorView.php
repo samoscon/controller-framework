@@ -1,3 +1,15 @@
+<?php
+$errorcode = $request->get('errorcode');
+$errors = [
+    'NoValidLogin' => 'Niet meer ingelogd. Log opnieuw in aub.', //Raised in controllerframework/controllers/Command
+    'XYZ' => 'add here your error messages'
+];
+if (array_key_exists($errorcode, $errors)) {
+    $errormessage = $errors[$errorcode];
+} else {
+    $errormessage = $request->getFeedbackString();
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,7 +28,7 @@
         <div class="container mt-5">
             <div class="row">
                 <p class="text-danger">Error:<br> 
-                    <b><?=$request->getFeedbackString('<br>')?></b></p>
+                    <b><?=$errormessage?></b></p>
                 <form  action="<?=_APPDIR?>">
                     <button type="submit" class="btn btn-primary btn-block mb-4">OK</button>
                 </form>
