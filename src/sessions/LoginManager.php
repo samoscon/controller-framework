@@ -2,9 +2,9 @@
 /**
  * LoginManager.php
  *
- * @package sessions
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\sessions
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\sessions;
@@ -156,29 +156,15 @@ class LoginManager implements AuditableItem {
      */
     public function initiatePassword(int $memberid, int $pwdlength = 8, bool $requestedByAdmin = false): void {
  	$member = \model\Member::find($memberid);
-        $memberName = $member->name;
-        $memberLastName = $member->lastname;
+
         $password = $this->strRand($pwdlength);
         $hash = $this->generateHashPassword($memberid, $password);
-        $member->update(array('password' => $hash, 'ownpwd' => '0'));
-        $app = APP;
-        $subject = $requestedByAdmin ? 
-            'Nieuw paswoord '.$app. " (aangevraagd door {$this->user->name} voor {$memberName} {$memberLastName})":
-            'Nieuw paswoord '.$app;
-        
-$body =<<<_MAIL_
-Beste $memberName,<br>
-<br>       
-Uw nieuw paswoord is <b>$password</b><br>
-<br>
-Dit paswoord kan je in de komende 24h slechts 1 maal gebruiken om in te loggen via het login scherm.<br>
-<br>
-Wanneer je in het scherm <b>Paswoord aanpassen</b> bent, zal je gevraagd worden om een eigen paswoord op te geven.<br>
-<br>
-Met vriendelijke groet,<br>
-Het $app bestuur
-_MAIL_;
 
+        $member->update(array('password' => $hash, 'ownpwd' => '0'));
+
+        $app = APP;
+        $subject = 'Password '.$app;
+        $body = $member->initiatePassword($password);
         $to = $requestedByAdmin ? $this->user->email : $member->email;
         
         \controllerframework\mail\Mailer::sendMail($subject, $body, _MAILTO, $to);

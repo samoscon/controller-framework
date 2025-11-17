@@ -2,9 +2,9 @@
 /**
  * Controller.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -28,7 +28,7 @@ class Controller {
     
     /**
      *
-     * @var \registry\Registry Handle to Registry 
+     * @var Registry Handle to Registry 
      */
     private Registry $reg;
 

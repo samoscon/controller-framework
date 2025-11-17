@@ -2,9 +2,9 @@
 /**
  * AuditableItem.php
  *
- * @package audit
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\audit
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\audit;
@@ -15,7 +15,7 @@ namespace controllerframework\audit;
  * When you implement this interface you have to use the trait AuditableItemTrait at beginning of your class definition.
  * Add following line at the beginning of the class definition:
  * 
- * use \audit\AuditableItemTrait;
+ * use controllerframework\audit\AuditableItemTrait;
  * 
  * Within the method(s) that you want to audit of that class, you add a line :
  * 

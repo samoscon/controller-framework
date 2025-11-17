@@ -2,9 +2,9 @@
 /**
  * DefaultCommand.php
  *
- * @package commands
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\commands
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -13,9 +13,9 @@ use controllerframework\sessions\NoLoginRequired;
 use controllerframework\registry\Request;
 
 /**
- * Description of DefaultCommand
+ * This DefaultCommand will be instantiated if no correct command for your path was found.
  *
- * @author dirk
+ * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 class DefaultCommand extends Command {
     #[\Override]

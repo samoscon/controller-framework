@@ -2,12 +2,14 @@
 /**
  * MemberComposite.php
  *
- * @package model\members
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\members
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\members;
+
+use controllerframework\db\ObjectMap;
 
 /**
  * Specific implementation of an Activity tree within client code
@@ -17,13 +19,13 @@ namespace controllerframework\members;
  */
 class MemberComposite extends Member {
     /**
-     * @var \db\Objectmap $childeren
+     * @var ObjectMap $childeren
      */
-    protected $children;
+    protected ObjectMap $children;
 
     public function __construct(int $id) {
         parent::__construct($id);
-        $this->children = new \controllerframework\db\ObjectMap();
+        $this->children = new ObjectMap();
     }
 
     /**
@@ -32,7 +34,7 @@ class MemberComposite extends Member {
      * Based on design pattern 'Abstract Factory'
      * 
      * @param array $row
-     * @return \model\members\Member
+     * @return Member
      */
     #[\Override]
     public static function getInstance(array $row): Member {
@@ -45,19 +47,44 @@ class MemberComposite extends Member {
         return $member;        
     }
 
-    public function getChildren(): \controllerframework\db\ObjectMap {
+    /**
+     * Returns the childeren of a Composite Member
+     * 
+     * @return ObjectMap with the Members that are childeren of this Composite Member
+     */
+    public function getChildren(): ObjectMap {
         if(!$this->children->valid()) {
             $this->setChildren();
         }
         return $this->children;
     }
     
+    /**
+     * Sets the childeren of a Composite Member
+     * 
+     */
     private function setChildren(): void {
         $this->children =  self::mapper()->getChildren($this);
     }
 
+    /**
+     * Returns whether a Member is Composite or not
+     * 
+     * @return bool
+     */
     #[\Override]
     public function isComposite(): bool {
         return true;
+    }
+
+    /**
+     * Returns a mail body. In case of a composite, a password can not be initialized.
+     * 
+     * @param string $pwd The generated password
+     * @return string Body of the mail with the password sent to the Member
+     */
+    #[\Override]
+    public function initiatePassword(string $pwd = ''): string {
+        return 'Password can only be provided to individual members and not to composites. Contact the web administrator.';
     }
 }

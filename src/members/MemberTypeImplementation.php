@@ -2,9 +2,9 @@
 /**
  * MemberTypeImplementation.php
  *
- * @package model\members
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\members
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\members;
@@ -26,7 +26,7 @@ abstract class MemberTypeImplementation {
      * If you want to apply a fix membership fee in addition to participation fee, override this method
      * 
      * @param \model\Member $member Member object
-     * @return int
+     * @return float
      */
     public function getMembershipFee(\model\Member $member): float {
         return 0;

@@ -2,9 +2,9 @@
 /**
  * DomainObject.php
  *
- * @package db
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\db
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\db;
@@ -43,6 +43,7 @@ abstract class DomainObject {
      * Returns an object on the basis of the data in the array of data ($row) provided as param
      * 
      * @param array $row Array of named data fields used to fill up the object properties
+     * @return DomainObject Return of a DomainObject (member, activity, or any other onject in your model folder)
      */
     abstract public static function getInstance(array $row): DomainObject;
     
@@ -51,7 +52,7 @@ abstract class DomainObject {
      * Find an object on the basis of the id in the database through the respective mapper of the calling class
      * 
      * @param int $id id in the database
-     * @return \db\DomainObject
+     * @return DomainObject
      */
     public static function find(int $id): DomainObject {
         $classname = '\\'.(new \ReflectionClass(get_called_class()))->getName();
@@ -63,7 +64,7 @@ abstract class DomainObject {
      * where the tablename is retrieved from the mapper linked to the calling class
      * 
      * @param string $selectclause 
-     * @return \db\ObjectMap
+     * @return ObjectMap
      */
     public static function findAll(string $selectclause = ''): ObjectMap {
         $classname = '\\'.(new \ReflectionClass(get_called_class()))->getName();
@@ -74,7 +75,7 @@ abstract class DomainObject {
      * Insert an object on the basis of an array of properties in the database through the respective mapper of the calling class
      * 
      * @param array $properties
-     * @return \db\DomainObject
+     * @return DomainObject
      */
     public static function insert(array $properties): DomainObject {
         $classname = '\\'.(new \ReflectionClass(get_called_class()))->getName();
@@ -85,7 +86,7 @@ abstract class DomainObject {
      * Update an object on the basis of an array of properties in the database through the respective mapper of the calling class
      * 
      * @param array $properties
-     * @return \db\DomainObject
+     * @return DomainObject
      */
     public function update(array $properties): DomainObject {
         return self::mapper()->update($this, $properties);
@@ -106,7 +107,7 @@ abstract class DomainObject {
     /**
      * Helper method to get the correct mapper on the basis of the name of the calling class
      * 
-     * @param array $properties
+     * @return Mapper Return of a specific mapper (MemberMapper, ActivityMapper or any other mapper defined in your model)
      */
     protected static function mapper(): Mapper {
         $classname ='\\model\\'.(new \ReflectionClass(get_called_class()))->getShortName().'Mapper'; 
@@ -116,7 +117,7 @@ abstract class DomainObject {
     
     /**
      * You can provide a method that lets the client code figure out whether a
-     * component can bear children.
+     * component bears children.
      */
     public function isComposite(): bool {
         return false;
@@ -134,7 +135,7 @@ abstract class DomainObject {
     /**
      * Set properties keys without values. The values will be set by Interceptor __set()
      * 
-     * @var array $properties
+     * @param array $properties
      */
     private function setProperties(array $properties): void {
         $conf = new Conf();
@@ -150,7 +151,7 @@ abstract class DomainObject {
      * Set properties keys with values on the basis of a row as array. Each key 
      * in the row (except the id) will be set in the properties.
      * 
-     * @var array $row
+     * @param array $row
      */
     protected function initProperties(array $row): void {
         $this->setProperties($row);
@@ -165,7 +166,7 @@ abstract class DomainObject {
     /**
      * Get a property that is not explicitly named on the basis of a key that is set by the Interceptor __set()
      * 
-     * @var string $key
+     * @param string $key
      * @return mixed Returns the value associated with the key in the properties attribute
      */
     public function __get(string $key): mixed {
@@ -176,8 +177,8 @@ abstract class DomainObject {
      * Set a property that is not explicitly named on the basis of a key. Implementation 
      * of the Interceptor __set() principle
      * 
-     * @var string $key
-     * @var mixed $value Value associated with the key
+     * @param string $key
+     * @param mixed $value Value associated with the key
      */
     public function __set(string $key, mixed $value): void {
             $this->properties->set($key, $value);

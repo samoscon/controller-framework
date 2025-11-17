@@ -2,9 +2,9 @@
 /**
  * User.php
  *
- * @package sessions
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\sessions
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\sessions;
@@ -26,7 +26,7 @@ class User {
      * Method to initialise a new User object
      * 
      * @param int $memberid id of a member in the database
-     * @return \members\Member or null if no memberID is available in the SESSION
+     * @return \model\Member or null if no memberID is available in the SESSION
      */
     public static function getInstance(int $memberid = 0): ?\model\Member {
         if (is_null(self::$instance)) {

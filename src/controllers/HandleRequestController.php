@@ -2,9 +2,9 @@
 /**
  * HandleRequestController.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -38,7 +38,7 @@ abstract class HandleRequestController {
      * 
      * E.g. <command path="/home" class="\controllers\commands\user\HomeCommand">
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      * @return Command
      */
     protected function getCommand(Request $request): Command {
@@ -56,10 +56,10 @@ abstract class HandleRequestController {
      * Returns the render component related to the path in the request and depending 
      * on the status of the executed command
      * 
-     * Can be found in the controls.xml under the property <view name=""> or
+     * For views can be found in the controls.xml under the property <view name=""> or otherwise a different type is indicated (download, ajax, etc.)
      * 
-     * @param \registry\Request $request
-     * @return \controllers\RenderComponent
+     * @param Request $request
+     * @return RenderComponent
      */
     protected function getRenderer(Request $request): RenderComponent {
         try {
@@ -76,11 +76,11 @@ abstract class HandleRequestController {
      * linking that path to the correct Command class and the correct RenderComponents 
      * (eventually depending on status of the executed command or on the type of datarequest)
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      * @return RenderComponentDescriptor
      * @throws \Exception
      */
-    private function getDescriptor(Request $request):RenderComponentDescriptor {
+    private function getDescriptor(Request $request): RenderComponentDescriptor {
         $reg = Registry::instance();
         $commands = $reg->getCommands();
         $path = $request->getPath();
@@ -96,7 +96,7 @@ abstract class HandleRequestController {
     /**
      * Implementation of the handling of a request. To be implemented in the respective frameworks via their subclass
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      */
     abstract public function handleRequest(Request $request): void;
 }

@@ -2,9 +2,9 @@
 /**
  * RenderComponentDescriptor.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -82,7 +82,7 @@ class RenderComponentDescriptor {
      * type of render (ajax response, file to download, ics (agenda), file, etc.)
      * View can be a forwardView or another type of response (ajax response, file to download, ics (agenda) file, etc.)
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      * @return RenderComponent
      * @throws \Exception No renderer found
      */

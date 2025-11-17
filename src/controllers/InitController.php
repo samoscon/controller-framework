@@ -2,9 +2,9 @@
 /**
  * InitController.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -40,7 +40,7 @@ abstract class InitController {
     
     /**
      *
-     * @var \registry\Registry  Handle to Registry
+     * @var Registry  Handle to Registry
      */
     private Registry $reg;
     
@@ -96,8 +96,8 @@ abstract class InitController {
     /**
      * Set up of the commands as defined in $config file or in the controls.xml file
      * 
-     * @var array $options from the config file
-     * @var string Contains the name of controls file 
+     * @param array $options from the config file
+     * @param string Contains the name of controls file 
      * @return Conf Map of Commands
      */
     abstract protected function setupCommands(array $options, string $controlsfile): Conf;

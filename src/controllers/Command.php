@@ -2,9 +2,9 @@
 /**
  * Command.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -24,13 +24,13 @@ abstract class Command {
     
     /**
      *
-     * @var \registry\Registry Handle to Registry 
+     * @var Registry Handle to Registry 
      */
     protected  Registry $reg;
     
     /**
      *
-     * @var \sessions\Login Handle to LoginManager 
+     * @var \controllerframework\sessions\Login Handle to LoginManager 
      */
     protected Login $loginLevel;
 
@@ -52,7 +52,7 @@ abstract class Command {
     /**
      * Returns a status as defined in the constants reflecting the status of the execution.
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      * @return int Returns 1 of the constants of this class
      */
     public function execute(Request $request): int {
@@ -60,7 +60,7 @@ abstract class Command {
         if ($this->loginLevel->validate()) {
             $status = $this->doExecute($request);
         } else {
-            $request->addFeedback('Niet meer ingelogd. Log opnieuw in aub.');
+            $request->set('errorcode', 'NoValidLogin');
             $params= $request->get("id") ? '?id='.$request->get("id") : '';
             $originalPath = $request->getPath().$params;
             setcookie('originalPath', $originalPath, time() + 120, '/');
@@ -76,7 +76,7 @@ abstract class Command {
      * The login level is determined in one of the subclasses of Login. 
      * Implements design pattern 'Strategy'
      * 
-     * @param \sessions\Login login
+     * @param Login login
      */
     protected function setLoginLevel(Login $loginLevel): void {
         $this->loginLevel = $loginLevel;
@@ -85,7 +85,7 @@ abstract class Command {
     /**
      * Overrides the forward after the login of a user
      * 
-     * @param \members\Member $user
+     * @param Member $user
      * @return int Returns a status
      */
     protected function loginChecks(Member $user): int {
@@ -103,7 +103,7 @@ abstract class Command {
     /**
      * Helper method to construct a response in the Request
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      * @param array $responses Named array
      */
     protected function addResponses(Request $request, array $responses): void {

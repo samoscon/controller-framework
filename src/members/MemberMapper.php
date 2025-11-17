@@ -2,9 +2,9 @@
 /**
  * MemberMapper.php
  *
- * @package members
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\members
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\members;
@@ -38,8 +38,9 @@ abstract class MemberMapper extends \controllerframework\db\Mapper {
     /**
      * Returns on the basis of a database row the associated object
      * 
-     * @param Array $row
-     * @return \members\Member
+     * @param string $classname
+     * @param array $row
+     * @return Member
      */
     #[\Override]
     protected function doCreateObject(string $classname, array $row): Member {
@@ -47,6 +48,12 @@ abstract class MemberMapper extends \controllerframework\db\Mapper {
          
     }   
     
+    /**
+     * Returns the childeren of a Composite Member
+     * 
+     * @param MemberComposite $membercomposite 
+     * @return ObjectMap with the Members that are childeren of this Composite Member
+     */
     public function getChildren(MemberComposite $membercomposite): ObjectMap {
         $result = $this->checkForChildren($membercomposite->getId());
         

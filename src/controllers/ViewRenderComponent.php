@@ -2,9 +2,9 @@
 /**
  * ViewRenderComponent.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -37,7 +37,7 @@ class ViewRenderComponent implements RenderComponent {
     /**
      * Renders a view towards the browser
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      * @throws \Exception Template of the view has not been found
      */
     #[\Override]

@@ -2,9 +2,9 @@
 /**
  * ObjectMap.php
  *
- * @package db
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\db
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\db;
@@ -20,7 +20,7 @@ class ObjectMap extends \SplObjectStorage {
      * Method for lazy initialization of objects in an ObjectMap
      * 
      * @param int $info Find object on basis of database row id in the ObjectMap (lazy initialisation)
-     * @return \db\DomainObject or null
+     * @return DomainObject or null
      */
     public function getObjectBy(int $info): ?DomainObject
     {

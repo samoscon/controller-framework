@@ -2,9 +2,9 @@
 /**
  * Specialization of a Command
  *
- * @package commands\login
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\commands\login
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\commands\login;
@@ -19,8 +19,8 @@ class InitiatePasswordCommand extends \controllerframework\controllers\Command {
     /**
      * Specialization of the execute method of Command
      * 
-     * @param \registry\Request $request
-     * @return int
+     * @param \controllerframework\registry\Request $request
+     * @return int Returns a status e.g. CMD_DEFAULT, CMD_OK, CMD_ERROR, etc.
      */
     
     #[\Override]
@@ -41,8 +41,7 @@ class InitiatePasswordCommand extends \controllerframework\controllers\Command {
                 $member = \model\Member::find($memberid);
             
                 if(_MINLEVELTOLOGIN === 'A' && !$member->isAdministrator()) {
-                    $request->addFeedback("Je bent niet geauthoriseerd om een paswoord aan te vragen. Neem contact op met de web administrator.");
-                    return self::CMD_ERROR;
+                    $usernameIsFound = false;
                 }
             }
             
@@ -61,7 +60,7 @@ class InitiatePasswordCommand extends \controllerframework\controllers\Command {
     }
 
     /**
-     * Specialization of getLevelOfLoginRequired
+     * Specialization of getLevelOfLoginRequired. Sets the level of login (User, Admin, No login required, etc.) that is required for this command
      */
     #[\Override]
     protected function getLevelOfLoginRequired(): void {

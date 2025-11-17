@@ -2,9 +2,9 @@
 /**
  * AgendaRenderComponent.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -22,7 +22,7 @@ class AgendaRenderComponent extends DatarequestRenderComponent {
     /**
      * Renders an agenda entry to the browser
      * 
-     * @param \registry\Request $request The $request must contain a Conf with 'filename'
+     * @param Request $request The $request must contain a Conf with 'filename'
      * and a Conf with 'results'. 
      * The filename will be suffixed with .ics
      * 

@@ -2,21 +2,22 @@
 /**
  * Registry.php
  *
- * @package registry
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframeworkregistry
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\registry;
 
-use controllerframework\controllers\{
+use controllerframework\controllers\
+{
     InitController,
     HandleRequestController,
-    Conf,
+    InitApplicationController,
+    HandleRequestApplicationController,
 //    InitFrontController,
 //    HandleRequestFrontController,
-    InitApplicationController,
-    HandleRequestApplicationController
+    Conf
 };
 use controllerframework\sessions\LoginManager;
 
@@ -41,27 +42,27 @@ class Registry {
     
     /**
      *
-     * @var \controllers\InitController Handle to help the class that will initialize 
+     * @var InitController Handle to help the class that will initialize 
      * the Registry with App config info and commands
      */
     private ?InitController $initController = null;
     
     /**
      *
-     * @var \controllers\HandleRequestController Handle to help the class that will initialize 
+     * @var HandleRequestController Handle to help the class that will initialize 
      * the Registry with App config info and commands
      */
     private ?HandleRequestController $handleRequestController = null;
     
     /**
      *
-     * @var \controllers\Conf Helper class for handling Configurations
+     * @var Conf Helper class for handling Configurations
      */
     private ?Conf $conf = null;
     
     /**
      *
-     * @var \controllers\Conf of Commands 
+     * @var Conf of Commands 
      */
     private ?Conf $commands = null;
     
@@ -114,7 +115,7 @@ class Registry {
     }
     
     /**
-     * Reset van het object
+     * Reset of the registry
      */
     public static function reset() {
         self::$instance = null; 
@@ -137,7 +138,7 @@ class Registry {
     /**
      * Set $request The request will be set from the InitController
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      */
     public function setRequest(Request $request): void {
         $this->request = $request;
@@ -146,32 +147,32 @@ class Registry {
     /**
      * Returns InitController
      * 
-     * @return \controllers\InitController
+     * @return InitController
      */
     public function getInitController(): InitController {
         if (is_null($this->initController)) {
             $this->initController = new InitApplicationController();
             $this->handleRequestController = new HandleRequestApplicationController();
 //            Switch between 2 above and below lines depending on which pattern you want to use
-//            $this->initController = new \controllers\InitFrontController();
-//            $this->handleRequestController = new \controllers\HandleRequestFrontController();
+//            $this->initController = new InitFrontController();
+//            $this->handleRequestController = new HandleRequestFrontController();
         }
         
         return $this->initController;
     }
     
     /**
-     * Returns InitController
+     * Returns HandleRequestController
      * 
-     * @return \controllers\InitController
+     * @return HandleRequestController
      */
     public function getHandleRequestController(): HandleRequestController {
         if (is_null($this->handleRequestController)) {
-            $this->initController = new \controllers\InitApplicationController();
-            $this->handleRequestController = new \controllers\HandleRequestApplicationController();
+            $this->initController = new InitApplicationController();
+            $this->handleRequestController = new HandleRequestApplicationController();
 //            Switch between 2 above and below lines depending on which pattern you want to use
-//            $this->initController = new \controllers\InitFrontController();
-//            $this->handleRequestController = new \controllers\HandleRequestFrontController();
+//            $this->initController = new InitFrontController();
+//            $this->handleRequestController = new HandleRequestFrontController();
         }
         
         return $this->handleRequestController;
@@ -182,7 +183,7 @@ class Registry {
      * app_options.ini file of the application. 
      * Key = 'config' => Value = content of the [config] section in the app_options.ini file
      * 
-     * @param \controllers\Conf $conf
+     * @param Conf $conf
      */
     public function setAppConfig(Conf $conf): void {
         $this->conf = $conf;
@@ -192,11 +193,11 @@ class Registry {
      * Returns the configuration options as defined in the [config] section of the
      * app_options.ini file of the application.
      * 
-     * @return \controllers\Conf Key = 'config' => Value = content of the [config] section in the app_options.ini file
+     * @return Conf Key = 'config' => Value = content of the [config] section in the app_options.ini file
      */
     public function getAppConfig(): Conf {
         if (is_null($this->conf)) {
-            $this->conf = new \controllers\Conf();
+            $this->conf = new Conf();
         }
         
         return $this->conf;
@@ -205,7 +206,7 @@ class Registry {
     /**
      * Set the list of commands associated to the Request
      * 
-     * @param \controllers\Conf $commands
+     * @param Conf $commands
      */
     public function setCommands(Conf $commands): void {
         $this->commands = $commands;
@@ -214,7 +215,7 @@ class Registry {
     /**
      * Returns the list of commands associated to the Request
      * 
-     * @return \controllers\Conf
+     * @return Conf
      */
     public function getCommands(): Conf {
         return $this->commands;
@@ -223,7 +224,7 @@ class Registry {
     /**
      * Returns LoginManager
      * 
-     * @return \sessions\LoginManager
+     * @return LoginManager
      */
     function getLoginManager(): LoginManager {
         if (is_null($this->loginManager)) {
@@ -236,7 +237,7 @@ class Registry {
     /**
      * Returns PHP Database Object specific to this application
      * 
-     * @return PDO PHP Database Object
+     * @return \PDO PHP Database Object
      */
     function getDb(): \PDO {
         if (is_null($this->db)) {

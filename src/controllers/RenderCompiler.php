@@ -2,9 +2,9 @@
 /**
  * RenderCompiler.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -18,7 +18,7 @@ namespace controllerframework\controllers;
 class RenderCompiler {
     /**
      *
-     * @var \commands\DefaultCommand Handle to DefaultCommand class 
+     * @var DefaultCommand Handle to DefaultCommand class 
      */
     private static $defaultcmd = DefaultCommand::class;
 
@@ -37,7 +37,7 @@ class RenderCompiler {
      * Helper function to parse the file
      * 
      * @param \SimpleXMLElement $options
-     * @return \controllers\Conf
+     * @return Conf
      * @throws Exception
      */
     private function parse(\SimpleXMLElement $options): Conf {
@@ -72,7 +72,7 @@ class RenderCompiler {
     /**
      * Helper function to analyze a Command description in the controls file
      * 
-     * @param \controllers\ComponentDescriptor $pathobj
+     * @param RenderComponentDescriptor $pathobj
      * @param int $statusval
      * @param \SimpleXMLElement $el
      */

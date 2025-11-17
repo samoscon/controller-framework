@@ -2,9 +2,9 @@
 /**
  * CommandDecorator.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -27,7 +27,7 @@ abstract class CommandDecorator extends Command {
     /**
      * Sets the parent Command $command
      * 
-     * @param \controllers\Command $command
+     * @param Command $command
      */
     protected function setCommand(Command $command): void {
         $this->command = $command;
@@ -36,7 +36,7 @@ abstract class CommandDecorator extends Command {
     /**
      * Template method for the decorator
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      * @return int Returns 1 of the status constants in Command
      */
     #[\Override]
@@ -58,7 +58,8 @@ abstract class CommandDecorator extends Command {
     /**
      * Abstract function to be specialized in a subclass
      * 
-     * @param \resistry\Request $request
+     * @param Request $request
+     * @return ?int Status or null
      */
-    abstract public function doExecuteDecorator(Request $request): void;
+    abstract public function doExecuteDecorator(Request $request): ?int;
 }

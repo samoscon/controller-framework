@@ -2,17 +2,15 @@
 /**
  * Member.php
  *
- * @package model\members
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\members
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\members;
 
 /**
- * Represents an individual Member of a Club/Organisation that organises Activities.
- * 
- * A member can take part to these activities by subscribing to these activities.
+ * Represents an individual member to the system
  * 
  * @link ../graphs/members%20Class%20Diagram.svg Members class diagram
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
@@ -37,7 +35,7 @@ abstract class Member extends \controllerframework\db\DomainObject {
      * Based on design pattern 'Abstract Factory'
      * 
      * @param array $row
-     * @return \model\Member
+     * @return Member
      */
     #[\Override]
     public static function getInstance(array $row): Member {
@@ -131,7 +129,7 @@ abstract class Member extends \controllerframework\db\DomainObject {
     /**
      * Returns the effective paid amount for this Member or MemberComposite
      * 
-     * @return float Returns an array with a subject and a body
+     * @return float The effective paid amount
      */
     public function getTotalAmountReceived(): float {
         $total = 0;
@@ -142,4 +140,12 @@ abstract class Member extends \controllerframework\db\DomainObject {
         }
         return $total;
     }
+    
+    /**
+     * Initializes a new password for a Member in the database. The Member will receive a mail confirming his new password.
+     * 
+     * @param string $pwd The generated password
+     * @return string Body of the mail with the password sent to the Member
+     */
+    abstract  public function initiatePassword(string $pwd = ''): string;
 }

@@ -2,9 +2,9 @@
 /**
  * HandleRequestApplicationController.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -21,7 +21,7 @@ class HandleRequestApplicationController extends HandleRequestController {
     /**
      * Implementation of the handling of a request for the Application Controller Framework
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      */
     #[\Override]
     public function handleRequest(Request $request): void {

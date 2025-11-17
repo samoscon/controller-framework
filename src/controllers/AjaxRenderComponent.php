@@ -2,9 +2,9 @@
 /**
  * AjaxRenderComponent.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -22,7 +22,7 @@ class AjaxRenderComponent extends DatarequestRenderComponent {
     /**
      * Renders an ajax response to the browser in json format
      * 
-     * @param \registry\Request $request The $request must contain a Conf with 'results'. 
+     * @param Request $request The $request must contain a Conf with 'results'. 
      * 
      * The 'results' Conf value is in the format of a named array.
      */

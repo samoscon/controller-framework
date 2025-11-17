@@ -2,9 +2,9 @@
 /**
  * Mapper.php
  *
- * @package db
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\db
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\db;
@@ -15,7 +15,7 @@ use controllerframework\registry\{Request, Registry};
 /**
  * Superclass for the 'specialized' Mappers. 1 specialized Mapper per underlying domain class
  *
- * @version 4.0
+ * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 abstract class Mapper implements AuditableItem {
     use AuditableItemTrait;
@@ -30,7 +30,7 @@ abstract class Mapper implements AuditableItem {
      *
      * @var ObjectMap Collection of objects already retrieved from database and instantiated as object 
      */
-    protected \controllerframework\db\ObjectMap $collection;
+    protected ObjectMap $collection;
     
     /**
      * Constructor
@@ -45,6 +45,7 @@ abstract class Mapper implements AuditableItem {
     /**
      * Returns a domain object on the basis of its database row id
      * 
+     * @param string $classname Name of the class
      * @param int $id Database row id
      * @return DomainObject The object
      * @throws \Exception Exception thrown if the $id can not be found in the database
@@ -72,8 +73,9 @@ abstract class Mapper implements AuditableItem {
     /**
      * Returns a collection of objects for all rows in a table (note that 1 element of selection can be added)
      * 
-     * @param string $selectclause Element of selection
-     * @return \db\ObjectMap of DomainObjects
+     * @param string $classname Name of the class
+     * @param string $selectclause Element of selection. Should be a valid SQL WHERE statement (e.g. "WHERE amount >100 ORDER DESC BY date")
+     * @return ObjectMap of DomainObjects
      */
     public function findAll(string $classname, string $selectclause = ''): ObjectMap {
         $domainobjects = new ObjectMap();    
@@ -93,6 +95,7 @@ abstract class Mapper implements AuditableItem {
     /**
      * Returns an object
      * 
+     * @param string $classname Name of the class
      * @param array $row Named array with columnnames and values 
      * @return DomainObject
      */
@@ -103,8 +106,9 @@ abstract class Mapper implements AuditableItem {
     /**
      * Inserts an object into the database
      * 
+     * @param string $classname Name of the class
      * @param array $properties
-     * @return \db\DomainObject Returns the newly created Object in the database
+     * @return DomainObject Returns the newly created Object in the database
      */
     public function insert(string $classname, array $properties): DomainObject {
         $this->db->exec("INSERT INTO {$this->tablename()} (`description`) VALUES ('TBD')");
@@ -118,9 +122,9 @@ abstract class Mapper implements AuditableItem {
      * Updates the columns of the database row related to the $obj 
      * as given in the named array of columnnames and values
      * 
-     * @param \db\DomainObject $obj
+     * @param DomainObject $obj
      * @param array $updates Named array of columnnames and values
-     * @return \db\DomainObject Returns the updated Object in the database
+     * @return DomainObject Returns the updated Object in the database
      */
     public function update(DomainObject $obj, array $updates): DomainObject {
         $this->collection->detach($obj);
@@ -140,13 +144,19 @@ abstract class Mapper implements AuditableItem {
     /**
      * Deletes the row of the related $obj in the database
      * 
-     * @param \db\DomainObject $obj
+     * @param DomainObject $obj
      */
     public function delete(DomainObject $obj): void {
         $this->collection->detach($obj);
         $this->db->exec("DELETE FROM {$this->tablename()} WHERE id = {$obj->getId()}");
     }
     
+    /**
+     * Checks whether the object id is somewhere used as a parent_id in other rows.
+     * 
+     * @param int $id
+     * @return array Array of rows where the id is used as parent_id
+     */
     public function checkForChildren(int $id): array {
         $sql = $this->db->prepare("SELECT * FROM {$this->tablename()} WHERE parent_id = ?");
         $sql->execute([$id]);
@@ -166,8 +176,9 @@ abstract class Mapper implements AuditableItem {
     /**
      * Returns the specialized DomainObject in the specialized subclass
      * 
+     * @param string $classname Name of the class
      * @param array $row Named array of columnnames and values
-     * @return \db\DomainObject Subclass of DomainObject
+     * @return DomainObject Subclass of DomainObject
      */
     abstract protected function doCreateObject(string $classname, array $row): DomainObject;
     

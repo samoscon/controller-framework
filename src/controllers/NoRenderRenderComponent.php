@@ -2,9 +2,9 @@
 /**
  * NoRenderRenderComponent.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -23,7 +23,7 @@ class NoRenderRenderComponent extends DatarequestRenderComponent {
     /**
      * Forwards a response to the browser where no rendering is needed
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      */
     #[\Override]
     public function render(Request $request): void {

@@ -2,9 +2,9 @@
 /**
  * ForwardRenderComponent.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -17,8 +17,6 @@ use controllerframework\registry\Registry;
  * Renders a new path as forward location to the browser
  *
  * @link ../graphs/controllers%20(Application%20Controller)%20Class%20Diagram.svg Controllers class diagram
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 class ForwardRenderComponent implements RenderComponent {
@@ -41,7 +39,7 @@ class ForwardRenderComponent implements RenderComponent {
     /**
      * Renders a ViewComponent as forward location to the browser
      * 
-     * @param \registry\Request $request If the new path needs query parameters, 
+     * @param Request $request If the new path needs query parameters, 
      * the request needs 'forwardqueryparameters' set as a named array.
      * @throws \Exception If no forward path is set in the ini file
      */

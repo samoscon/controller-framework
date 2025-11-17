@@ -2,9 +2,9 @@
 /**
  * DownloadRenderComponent.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -22,7 +22,7 @@ class DownloadRenderComponent extends DatarequestRenderComponent {
     /**
      * Renders xls download to the browser
      * 
-     * @param \registry\Request $request Request must contain filename, columnNames, and results
+     * @param Request $request Request must contain filename, columnNames, and results
      */
     #[\Override]
     public function render(Request $request): void {

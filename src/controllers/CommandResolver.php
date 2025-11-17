@@ -2,9 +2,9 @@
 /**
  * CommandResolver.php
  *
- * @package controllers
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\controllers
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\controllers;
@@ -42,7 +42,7 @@ class CommandResolver {
     /**
      * Returns a concrete subclass of Command related to the path depending of the configuration in the ini file.
      * 
-     * @param \registry\Request $request
+     * @param Request $request
      * @return Command
      */
     public function getCommand(Request $request): Command {

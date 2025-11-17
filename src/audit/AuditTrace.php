@@ -2,9 +2,9 @@
 /**
  * AuditTrace.php
  *
- * @package audit
- * @version 4.0
- * @copyright (c) 2024, Dirk Van Meirvenne
+ * @package controllerframework\audit
+ * @version 1.0
+ * @copyright (c) 2025, Dirk Van Meirvenne
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 namespace controllerframework\audit;
@@ -13,7 +13,7 @@ namespace controllerframework\audit;
  * Observer class for a simple logging mechanism
  * 
  * The AuditTrace will write a notified message from an AuditableItem (i.e. any class 
- * that implements the interface of AuditableItem) into a file 'Includes/logfile.txt'
+ * that implements the interface of AuditableItem) into a file './assets/logging/logfile.txt'
  * 
  * Implements the design pattern 'Observer'
  *
@@ -23,7 +23,7 @@ class AuditTrace {
     /**
      * Writes notification in the logfile.txt
      * 
-     * @param \audit\AuditableItem $auditibleItem Object that implements the interface AuditableItem
+     * @param AuditableItem $auditibleItem Object that implements the interface AuditableItem
      * @param string $auditdescription Message to be written to the logfile
      */
     public function notify(AuditableItem $auditibleItem, string $auditdescription): void {
