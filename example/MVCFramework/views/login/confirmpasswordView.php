@@ -14,7 +14,7 @@
         </div>
         <div class="container mt-5">
             <div class="row">
-                <p class="text-primary"><?= $request->getFeedbackString(); ?></p>
+                <p class="text-primary">Een mail is naar het opgegeven mailadres verstuurd !! Log opnieuw in met het opgegeven wachtwoord.</p>
                 <form method="POST">
                     <button type="submit" class="btn btn-primary btn-block mb-4">OK</button>
                 </form>
