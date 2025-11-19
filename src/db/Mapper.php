@@ -61,7 +61,7 @@ abstract class Mapper implements AuditableItem {
         $sql->closeCursor();
         
         if(! is_array($row)) {
-            throw new \Exception("{$this->tablename()} met id $id bestaat niet.");
+            throw new \Exception("{$this->tablename()} with id $id does not exist.");
         }
         
         $object = $this->createObject($classname, $row);
