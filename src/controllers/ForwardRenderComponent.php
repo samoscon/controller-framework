@@ -41,16 +41,15 @@ class ForwardRenderComponent implements RenderComponent {
      * 
      * @param Request $request If the new path needs query parameters, 
      * the request needs 'forwardqueryparameters' set as a named array.
-     * @throws \Exception If no forward path is set in the ini file
      */
     public function render(Request $request): void {
         $reg = Registry::instance();
         $conf = $reg->getAppConfig();
-        $path = $conf->get("forwardpath");
+        $path = $conf->get("forwardpath") ?? '';
         
-        if (is_null($path)) {
-            throw new \Exception("no forward hostname - path");
-        }
+//        if (is_null($path)) {
+//            throw new \Exception("no forward hostname - path");
+//        }
         
         $fullpath = $path.  $this->path;
         

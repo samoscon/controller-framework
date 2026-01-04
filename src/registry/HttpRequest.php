@@ -36,7 +36,7 @@ class HttpRequest extends Request {
         if(isset($_COOKIE['originalPath'])) {
             $reg = Registry::instance();
             $conf = $reg->getAppConfig();
-            $forwardpath = $conf->get("forwardpath");
+            $forwardpath = $conf->get("forwardpath") ?? '';
             $path = $forwardpath.$_COOKIE['originalPath'];
             setcookie('originalPath', '', 0, '/');
         }

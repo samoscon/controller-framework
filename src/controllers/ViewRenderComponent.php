@@ -50,7 +50,7 @@ class ViewRenderComponent implements RenderComponent {
             throw new \Exception("no template directory");
         }
         
-        $fullpath = $path . $this->name.".php";
+        $fullpath = realpath('./') . $path . $this->name.".php";
         
         if(!file_exists($fullpath)) {
             throw new \Exception("no template at $fullpath");

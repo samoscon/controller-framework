@@ -87,7 +87,7 @@ abstract class InitController {
             define($name, $global);
         }
         
-        $this->controlsfile = realpath("./") . _CONTROLSFILE;
+        $this->controlsfile = realpath("./") . $conf->get('controlsfile');
         $commands = $this->setupCommands($options, $this->controlsfile);
         
         $this->reg->setCommands($commands);
