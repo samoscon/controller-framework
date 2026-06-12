@@ -47,7 +47,8 @@ class Mailer {
         $email->replyTo(_MAILREPLYTO);
 
         $toBccArray = explode(", ", $toBcc, -1);
-        foreach ($toBccArray as $bcc) {
+        foreach ($toBccArray as $bccElement) {
+            $bcc = \Symfony\Component\Mime\Address::create($bccElement);
             $email->addBcc($bcc);
         }
         
