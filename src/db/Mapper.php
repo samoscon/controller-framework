@@ -129,9 +129,21 @@ abstract class Mapper implements AuditableItem {
     public function update(DomainObject $obj, array $updates): DomainObject {
         $this->collection->detach($obj);
         $this->db->beginTransaction();
+
         foreach ($updates as $field => $value) {
-            $this->db->exec("UPDATE  {$this->tablename()} SET $field = '$value' WHERE id = {$obj->getId()}");
+
+            $sql = "UPDATE {$this->tablename()}
+                    SET $field = :value
+                    WHERE id = :id";
+
+            $stmt = $this->db->prepare($sql);
+
+            $stmt->execute([
+                ':value' => $value,
+                ':id'    => $obj->getId()
+            ]);
         }
+
         $this->db->commit();
         
         $classname = '\\'.(new \ReflectionClass(get_called_class()))->getName();
