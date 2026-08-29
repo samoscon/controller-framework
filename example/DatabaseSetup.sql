@@ -42,6 +42,30 @@ CREATE TABLE `member` (
   `subscriptionuntil` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Table structure for table `mail_queue`
+--
+
+CREATE TABLE mail_queue (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    description varchar(45) DEFAULT 'description',
+    classification varchar(4) NOT NULL DEFAULT 'RGLR',
+    parent_id int(10) UNSIGNED DEFAULT 0,
+    subject VARCHAR(255) NOT NULL,
+    body MEDIUMTEXT NOT NULL,
+    recipient VARCHAR(255) NOT NULL,
+    bcc VARCHAR(1000) DEFAULT NULL,
+    status ENUM('pending', 'sending', 'sent', 'failed') NOT NULL DEFAULT 'pending',
+    attempts TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    started_at DATETIME NULL,
+    sent_at DATETIME NULL,
+    error TEXT NULL,
+
+    PRIMARY KEY (id),
+    INDEX idx_status_created (status, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
