@@ -11,7 +11,7 @@
 namespace controllerframework\mail;
 
 /**
- * Description of MailQueue: Asynchron queue to send out bulk mails. This class helps to store new mails to the table mail_queue
+ * Description of MailQueue: Asynchronous queue to send out bulk mails. This class helps to store new mails to the table mail_queue
  *
  * @author dirk
  */
@@ -20,19 +20,16 @@ class MailQueue {
      * Database connection.
      *
      */
-    private static function getConnection()
-    {
-        return new \PDO(
-            'mysql:host=' . _DBHOST . ';dbname=' . _DBNAME . ';charset=utf8mb4',
-            _DBUSER,
-            _DBPASSWORD,
-            [
-                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
-            ]
-        );
-    }
+    private static ?\PDO $pdo = null;
 
+    private static function getConnection(): \PDO
+    {
+        if (self::$pdo === null) {
+            self::$pdo = \controllerframework\registry\Registry::instance()->getDb();
+        }
+
+        return self::$pdo;
+    }
 
     /**
      * Add one mail to the queue.
