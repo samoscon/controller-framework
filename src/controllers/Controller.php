@@ -49,14 +49,6 @@ class Controller {
     }
 
     /**
-     * Inits the MVC framework without handling the request. Can be used for CLI php programs started in cron
-     */
-    public static function bootstrap(): void {
-        $instance = new Controller();
-        $instance->init();
-    }
-
-    /**
      * Init the MVC framework
      */
     private function init(): void {
