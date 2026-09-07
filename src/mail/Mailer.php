@@ -15,6 +15,31 @@ namespace controllerframework\mail;
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 class Mailer {
+    private static $mailer = null;
+
+
+    /**
+     * Get the Symfony Mailer instance.
+     */
+    private static function getMailer(): \Symfony\Component\Mailer\Mailer {
+        if (self::$mailer === null) {
+            $dsn =
+                'smtp://' .
+                rawurlencode(_MAILUSERNAME) . ':' .
+                rawurlencode(_MAILPASSWORD) . '@' .
+                _MAILHOST . ':' .
+                _MAILHOSTPORT;
+
+            $transport =
+                \Symfony\Component\Mailer\Transport::fromDsn($dsn);
+
+            self::$mailer =
+                new \Symfony\Component\Mailer\Mailer($transport);
+        }
+
+        return self::$mailer;
+    }
+
     
     /**
      * Helper function to send application specific mail. All globals are defined in the config\app_options.ini file
@@ -25,16 +50,7 @@ class Mailer {
      * @param string $to Format: mailaddress<Name>
      */
     public static function sendMail(string $subject, string $body, string $toBcc, string $to = null): void {
-        // Symfony Mailer Library
-        require_once './vendor/autoload.php';
-        
-        // Mail Transport
-        
-        // Create a Transport object
-        $transport = \Symfony\Component\Mailer\Transport::fromDsn('smtp://'._MAILUSERNAME.':'._MAILPASSWORD.'@'._MAILHOST.':'._MAILHOSTPORT);
-
-        // Create a Mailer object
-        $mailer = new \Symfony\Component\Mailer\Mailer($transport); 
+        $mailer = self::getMailer();
 
         // Create an Email object
         $email = (new \Symfony\Component\Mime\Email());

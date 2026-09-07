@@ -20,16 +20,16 @@ class MailQueue {
      * Database connection.
      *
      */
-    private static ?\PDO $pdo = null;
-
-    private static function getConnection(): \PDO
-    {
-        if (self::$pdo === null) {
-            self::$pdo = \controllerframework\registry\Registry::instance()->getDb();
-        }
-
-        return self::$pdo;
-    }
+//    private static ?\PDO $pdo = null;
+//
+//    private static function getConnection(): \PDO
+//    {
+//        if (self::$pdo === null) {
+//            self::$pdo = \controllerframework\registry\Registry::instance()->getDb();
+//        }
+//
+//        return self::$pdo;
+//    }
 
     /**
      * Add one mail to the queue.
@@ -41,7 +41,8 @@ class MailQueue {
         string $bcc = ''
     ): int {
 
-        $pdo = self::getConnection();
+//        $pdo = self::getConnection();
+        $pdo = \controllerframework\registry\Registry::instance()->getDb();
 
         $sql = "
             INSERT INTO mail_queue

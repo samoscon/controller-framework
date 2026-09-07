@@ -49,6 +49,28 @@ abstract class MemberMapper extends \controllerframework\db\Mapper {
     }   
     
     /**
+     * Fields that are allowed for Activity.
+     * 
+     * @return array List of fields that are allowed
+     */
+    protected function getAllowedFields(): array
+    {
+        return array_merge(
+            parent::getAllowedFields(),
+            [
+                'name',
+                'firstname',
+                'email',
+                'password',
+                'role',
+                'ownpwd',
+                'active',
+                'subscriptionuntil'
+            ]
+        );
+    }
+    
+    /**
      * Returns the childeren of a Composite Member
      * 
      * @param MemberComposite $membercomposite 
