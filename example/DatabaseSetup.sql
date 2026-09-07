@@ -66,6 +66,26 @@ CREATE TABLE mail_queue (
     INDEX idx_status_created (status, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE remember_tokens (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    member_id INT UNSIGNED NOT NULL,
+    selector CHAR(24) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    token_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    expires_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_used_at DATETIME NULL DEFAULT NULL,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_remember_selector (selector),
+    KEY idx_remember_member (member_id),
+    KEY idx_remember_expires (expires_at),
+
+    CONSTRAINT fk_remember_member
+        FOREIGN KEY (member_id)
+        REFERENCES member(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- --------------------------------------------------------
 
 --
