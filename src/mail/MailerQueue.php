@@ -21,7 +21,7 @@ class MailerQueue
     /**
      * Get the Symfony Mailer instance.
      */
-    private static function getMailer()
+    private static function getMailer(): \Symfony\Component\Mailer\Mailer
     {
         if (self::$mailer === null) {
             $dsn =
@@ -55,7 +55,7 @@ class MailerQueue
         $body,
         $toBcc,
         $to = null
-    ) {
+    ): void {
 
         $mailer = self::getMailer();
 

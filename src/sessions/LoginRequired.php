@@ -70,13 +70,13 @@ abstract class LoginRequired extends Login {
      * @return boolean
      */
     private function checkLastActiveTime(): bool {
-        $timeOfInactivityAllowed = $_SESSION['rememberMe'] ? ($this->lastActive * 1000) : $this->lastActive;
-
-        if(($_SESSION['lastActive'] < time() - 1 * $timeOfInactivityAllowed)) {
-            return false;
-        }
+//        $timeOfInactivityAllowed = $_SESSION['rememberMe'] ? ($this->lastActive * 1000 * 96 * 30) : $this->lastActive;
+//
+//        if(($_SESSION['lastActive'] < time() - 1 * $timeOfInactivityAllowed)) {
+//            return false;
+//        }
         $_SESSION['lastActive'] = time();
-        setcookie('PHPSESSID', session_id(), time() + (1000 * $this->lastActive));
+//        setcookie('PHPSESSID', session_id(), time() + (1000 * $this->lastActive));
         return true;
     }
     

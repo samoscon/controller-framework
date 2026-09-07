@@ -119,6 +119,40 @@ abstract class Mapper implements AuditableItem {
     }
     
     /**
+     * Fields that are allowed for every DomainObject.
+     * 
+     * @return array List of fields that are allowed
+     */
+    protected function getAllowedFields(): array
+    {
+        return [
+            'description',
+            'classification',
+            'parent_id',
+        ];
+    }
+
+    /**
+     * Check whether all fields in $updates are allowed.
+     */
+    protected function validateFields(array $updates): void
+    {
+        $allowedFields = $this->getAllowedFields();
+
+        foreach ($updates as $field => $value) {
+            if (!in_array($field, $allowedFields, true)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        "Field '%s' is not allowed in %s.",
+                        $field,
+                        static::class
+                    )
+                );
+            }
+        }
+    }
+
+    /**
      * Updates the columns of the database row related to the $obj 
      * as given in the named array of columnnames and values
      * 
@@ -127,25 +161,33 @@ abstract class Mapper implements AuditableItem {
      * @return DomainObject Returns the updated Object in the database
      */
     public function update(DomainObject $obj, array $updates): DomainObject {
+        // Validate ALL requested fields first
+        $this->validateFields($updates);
+
+        if (empty($updates)) {
+            return $obj;
+        }
+        
         $this->collection->detach($obj);
-        $this->db->beginTransaction();
 
+        $sets = [];
+        $params = [
+            ':id' => $obj->getId()
+        ];
         foreach ($updates as $field => $value) {
+            $parameter = ':field_' . $field;
 
-            $sql = "UPDATE {$this->tablename()}
-                    SET $field = :value
-                    WHERE id = :id";
-
-            $stmt = $this->db->prepare($sql);
-
-            $stmt->execute([
-                ':value' => $value,
-                ':id'    => $obj->getId()
-            ]);
+            $sets[] = "`$field` = $parameter";
+            $params[$parameter] = $value;
         }
 
-        $this->db->commit();
-        
+        $sql = "UPDATE `{$this->tablename()}`
+                SET " . implode(', ', $sets) . "
+                WHERE id = :id";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+                    
         $classname = '\\'.(new \ReflectionClass(get_called_class()))->getName();
         $classname = str_replace("Mapper", "",$classname);
         $updatedObj = $this->find($classname, $obj->getId());
@@ -160,7 +202,25 @@ abstract class Mapper implements AuditableItem {
      */
     public function delete(DomainObject $obj): void {
         $this->collection->detach($obj);
-        $this->db->exec("DELETE FROM {$this->tablename()} WHERE id = {$obj->getId()}");
+        $id = $obj->getId();
+
+        if ($id === null) {
+            throw new \InvalidArgumentException(
+                'Cannot delete a DomainObject without an id.'
+            );
+        }
+
+        $sql = sprintf(
+            "DELETE FROM `%s` WHERE id = :id",
+            $this->tablename()
+        );
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':id' => $id
+        ]);    
+        
     }
     
     /**

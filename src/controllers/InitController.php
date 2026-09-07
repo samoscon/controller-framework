@@ -49,7 +49,8 @@ abstract class InitController {
      */
     public function __construct() {
         $this->reg = Registry::instance();
-        $this->config = realpath("./") . "/config/app_options.ini";
+        $applicationRoot = realpath(__DIR__ . "/../../../../../");
+        $this->config = $applicationRoot . "/config/app_options.ini";        
     }
     
     /**
