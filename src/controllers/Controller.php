@@ -10,6 +10,7 @@
 namespace controllerframework\controllers;
 
 use controllerframework\registry\Registry;
+use controllerframework\error\ErrorHandler;
 
 /**
  * Implementation of a MVC framework. The Controller is the class to init and run the whole framework.
@@ -43,8 +44,14 @@ class Controller {
      * Inits the MVC framework and handles consequently the request
      */
     public static function run(): void {
+        ErrorHandler::register();
+
         $instance = new Controller();
         $instance->init();
+
+        $environment = $instance->reg->getAppConfig()->get('environment');
+        ErrorHandler::setEnvironment($environment);
+
         $instance->handleRequest();
     }
 
@@ -63,12 +70,10 @@ class Controller {
      * 
      * @throws \Exception
      */
-    private function handleRequest(): void {
-        try {
-            $request = $this->reg->getRequest();            
-            $this->reg->getHandleRequestController()->handleRequest($request);            
-        } catch (\Exception $exc) {
-            echo $exc->getMessage();
-        }
+    private function handleRequest(): void
+    {
+        $request = $this->reg->getRequest();
+        $this->reg->getHandleRequestController()->handleRequest($request);
     }
+
 }

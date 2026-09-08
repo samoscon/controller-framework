@@ -241,14 +241,16 @@ class Registry {
      */
     function getDb(): \PDO {
         if (is_null($this->db)) {
-            try {
-                $this->db = new \PDO("mysql:host="._DBHOST.";dbname="._DBNAME, _DBUSER, _DBPASSWORD);
-            } catch (\PDOException $e) {
-                print "Error!: " . $e->getMessage() . "<br/>";
-                die();
-            }
+            $this->db = new \PDO(
+                "mysql:host=" . _DBHOST . ";dbname=" . _DBNAME,
+                _DBUSER,
+                _DBPASSWORD,
+                [
+                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+                ]
+            );
         }
-        
+
         return $this->db;
     }
 }

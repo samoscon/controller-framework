@@ -54,12 +54,14 @@ class RenderCompiler {
             if (isset($command->status) && isset($command->status['value'])) {
                 foreach ($command->status as $statusel) {
                     $status = (string)$statusel['value'];
-                    $statusval = constant(Command::class . "::" . $status);
-                    
-                    if(is_null($statusval)) {
-                        throw new Exception("unknown status: {$status}");
+                    $constant = Command::class . "::" . $status;
+
+                    if (!defined($constant)) {
+                        throw new \Exception("unknown status: {$status}");
                     }
-                    
+
+                    $statusval = constant($constant);
+
                     $this->processRenderComponentDescription($pathobj, $statusval, $statusel);
                 }
             }
