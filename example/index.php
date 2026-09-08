@@ -1,12 +1,14 @@
 <?php 
-/*
- * Make sure to disable the display of errors in production code! You can enable in the test mode
- */
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-
 include './vendor/autoload.php';
-include './autoload.php'; //Autoload in the root of your project to facilitate the link between your php files and your classes
+
+//Upload classes within your project automatically
+spl_autoload_register(function ($class_name) {
+    if(preg_match('/\\\\/', $class_name)) {
+        $class_name = str_replace('\\', DIRECTORY_SEPARATOR, $class_name);
+    }
+    if(file_exists("MVCFramework".DIRECTORY_SEPARATOR."{$class_name}.php")) {
+        require_once "MVCFramework".DIRECTORY_SEPARATOR."{$class_name}.php";
+    }
+});
 
 controllerframework\controllers\Controller::run();
