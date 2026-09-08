@@ -28,15 +28,13 @@ class User {
      * @param int $memberid id of a member in the database
      * @return \model\Member or null if no memberID is available in the SESSION
      */
-    public static function getInstance(int $memberid = 0): ?\model\Member {
+    public static function getInstance(int $memberid = 0): ?\model\Member
+    {
         if (is_null(self::$instance)) {
-            try {
-                self::$instance = \model\Member::find($memberid);            
-            } catch (\Exception $exc) {
-                echo $exc->getTraceAsString();
-            }
+            self::$instance = \model\Member::find($memberid);
         }
-        
+
         return self::$instance;
     }
+
 }

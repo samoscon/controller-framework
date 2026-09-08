@@ -45,13 +45,26 @@ abstract class InitController {
     private Registry $reg;
     
     /**
+     *
+     * @var string  holds the application root of the application running the framework
+     */
+    private string $applicationRoot;
+
+    /**
      * Constructor
      */
     public function __construct() {
         $this->reg = Registry::instance();
+
         $applicationRoot = realpath(__DIR__ . "/../../../../../");
-        $this->config = $applicationRoot . "/config/app_options.ini";        
-    }
+
+        if ($applicationRoot === false) {
+            throw new \RuntimeException("Unable to determine application root.");
+        }
+
+        $this->applicationRoot = $applicationRoot;
+        $this->config = $this->applicationRoot . "/config/app_options.ini";
+    }  
     
     /**
      * Set up of the options as defined in $config file and 
@@ -82,6 +95,8 @@ abstract class InitController {
         $options = parse_ini_file($this->config, TRUE);
         
         $conf = new Conf($options['config']);
+        $conf->set('applicationRoot', $this->applicationRoot);
+        
         $this->reg->setAppConfig($conf);
         
         foreach ($options['globals'] as $name => $global) {
