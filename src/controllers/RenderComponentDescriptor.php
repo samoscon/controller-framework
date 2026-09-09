@@ -89,7 +89,6 @@ class RenderComponentDescriptor {
      */
     public function getRenderer(Request $request): RenderComponent {
         $status = $request->getCmdStatus();
-        $status = $status ??= 0;
         
         if (isset($this->renderers[$status])) {
             return $this->renderers[$status];

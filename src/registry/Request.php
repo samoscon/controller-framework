@@ -28,7 +28,7 @@ abstract class Request {
      *
      * @var int 
      */
-    protected int $status;
+    protected int $status = 0;
     
     /**
      *
