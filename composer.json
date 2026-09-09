@@ -15,8 +15,9 @@
     }
   ],
   "require": {
-    "symfony/mailer": "^7.0"
-  },
+      "php": "^8.3",
+      "symfony/mailer": "^7.4"
+  },  
   "autoload": {
     "psr-4": {
       "controllerframework\\": "src/"
