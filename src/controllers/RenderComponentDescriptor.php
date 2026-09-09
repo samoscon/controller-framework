@@ -41,8 +41,9 @@ class RenderComponentDescriptor {
      *
      * @var Command Static handle referring to Command as class
      */
-    private static $refcmd;
-
+    private static \ReflectionClass $refcmd;
+    
+    
     /**
      * Constructor
      * 
@@ -88,7 +89,7 @@ class RenderComponentDescriptor {
      */
     public function getRenderer(Request $request): RenderComponent {
         $status = $request->getCmdStatus();
-        $status = (is_null($status)) ? 0 : $status;
+        $status = $status ??= 0;
         
         if (isset($this->renderers[$status])) {
             return $this->renderers[$status];
@@ -110,7 +111,7 @@ class RenderComponentDescriptor {
      * @throws \Exception Command class not found
      */
     private function resolveCommand(string $class): Command {
-        if (is_null($class)) {
+        if ($class === null) {
             throw new \Exception("unknown class");
         }
         

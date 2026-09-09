@@ -22,15 +22,15 @@ class CommandResolver {
     
     /**
      *
-     * @var DefaultCommand Handle to the DefaultCommand class 
+     * @var string Classname of DefaultCommand
      */
-    private static $defaultcmd = DefaultCommand::class;
+    private static string $defaultcmd = DefaultCommand::class;
     
     /**
      *
      * @var Command Reference on class level to Command 
      */
-    private static $refcmd = null;
+    private static ?\ReflectionClass $refcmd = null;    
     
     /**
      * Constructor
@@ -47,27 +47,31 @@ class CommandResolver {
      */
     public function getCommand(Request $request): Command {
         $reg = Registry::instance();
-        $path = $request->get(search);
+        $path = $request->get('search');
         $class = $reg->getCommands()->get($path);
-        
-        if (is_null($class)) {
+
+        if ($class === null) {
             $request->addFeedback("path $path not matched");
             return new self::$defaultcmd;
         }
-         
+
         if (!class_exists($class)) {
-            $request->addFeedback("class $class not found");
-            return new self::$defaultcmd;
+            throw new \RuntimeException(
+                "Command class '$class' not found for path '$path'."
+            );
         }
-         
+
         $refclass = new \ReflectionClass($class);
-        
-        if(! $refclass->isSubclassOf(self::$refcmd)) {
-            $request->addFeedback("command '$refclass' is not a Command");
-            return new self::$defaultcmd;            
+
+        if (!$refclass->isSubclassOf(self::$refcmd)) {
+            throw new \RuntimeException(
+                "Command class '$class' is not a subclass of " . Command::class . "."
+            );
         }
-        
+
         $request->addFeedback($refclass->name);
+
         return $refclass->newInstance();
     }
+
 }

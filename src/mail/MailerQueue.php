@@ -15,7 +15,10 @@ namespace controllerframework\mail;
  */
 class MailerQueue
 {
-    private static $mailer = null;
+    /**
+     * @var Mailer  Holds reference to the transport mechanism of the Mailer as a singleton
+     */
+    private static ?\Symfony\Component\Mailer\Mailer $mailer = null;
 
 
     /**

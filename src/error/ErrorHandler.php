@@ -47,16 +47,10 @@ class ErrorHandler
      */
     public static function handleException(\Throwable $exception): void
     {
-        error_log(
-            sprintf(
-                "%s: %s in %s on line %d\n%s",
-                get_class($exception),
-                $exception->getMessage(),
-                $exception->getFile(),
-                $exception->getLine(),
-                $exception->getTraceAsString()
-            )
-        );
+        if (PHP_SAPI === 'cli') {
+            fwrite(STDERR, (string) $exception . PHP_EOL);
+            exit(1);
+        }
 
         http_response_code(500);
 
@@ -73,4 +67,5 @@ class ErrorHandler
             echo 'There is an internal server error. Please contact ' . _MAILFROM;
         }
     }
+
 }

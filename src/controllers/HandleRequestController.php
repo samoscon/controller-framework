@@ -24,7 +24,7 @@ abstract class HandleRequestController {
      *
      * @var string Classname of DefaultCommand 
      */
-    private static $defaultcmd = DefaultCommand::class;
+    private static string $defaultcmd = DefaultCommand::class;
     
     /**
      *
@@ -42,16 +42,9 @@ abstract class HandleRequestController {
      * @return Command
      */
     protected function getCommand(Request $request): Command {
-        try {
-            $cmd = $this->getDescriptor($request)->getCommand();                
-        } catch (\Exception $exc) {
-            $request->addFeedback($exc->getMessage());
-            return new self::$defaultcmd();
-        }
-        
-        return $cmd;
+        return $this->getDescriptor($request)->getCommand();
     }
-    
+
     /**
      * Returns the render component related to the path in the request and depending 
      * on the status of the executed command
@@ -86,7 +79,7 @@ abstract class HandleRequestController {
         $path = $request->getPath();
         $descriptor = $commands->get($path);
         
-        if (is_null($descriptor) || !$descriptor) {
+        if ($descriptor === null) {
             throw new \Exception("path $path bestaat niet. Kijk de url na.");
         }
 

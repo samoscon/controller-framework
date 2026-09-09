@@ -15,8 +15,10 @@ namespace controllerframework\mail;
  * @author Dirk Van Meirvenne <van.meirvenne.dirk at gmail.com>
  */
 class Mailer {
-    private static $mailer = null;
-
+    /**
+     * @var Mailer  Holds reference to the transport mechanism of the Mailer as a singleton
+     */
+    private static ?\Symfony\Component\Mailer\Mailer $mailer = null;
 
     /**
      * Get the Symfony Mailer instance.
@@ -49,7 +51,7 @@ class Mailer {
      * @param string $toBcc Format: mailaddress1<Name1>, mailaddress2<Name2>, mailaddress3<Name3>, etc.
      * @param string $to Format: mailaddress<Name>
      */
-    public static function sendMail(string $subject, string $body, string $toBcc, string $to = null): void {
+    public static function sendMail(string $subject, string $body, string $toBcc, ?string $to = null): void {
         $mailer = self::getMailer();
 
         // Create an Email object

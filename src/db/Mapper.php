@@ -36,7 +36,7 @@ abstract class Mapper implements AuditableItem {
      * Constructor
      * 
      */
-    function __construct() {
+    public function __construct() {
         $reg = Registry::instance();
         $this->db = $reg->getDb();
         $this->collection = new ObjectMap();
