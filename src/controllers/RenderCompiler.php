@@ -18,9 +18,9 @@ namespace controllerframework\controllers;
 class RenderCompiler {
     /**
      *
-     * @var DefaultCommand Handle to DefaultCommand class 
+     * @var string Classname of DefaultCommand
      */
-    private static $defaultcmd = DefaultCommand::class;
+    private static string $defaultcmd = DefaultCommand::class;
 
     /**
      * Parse the controls.xml file
@@ -30,6 +30,13 @@ class RenderCompiler {
      */
     public function parseFile(string $file): Conf {
         $options = \simplexml_load_file($file);
+
+        if ($options === false) {
+            throw new \RuntimeException(
+                "Check your controls XML file. Could not parse controls file: " . $file
+            );
+        }
+
         return $this->parse($options);
     }
     

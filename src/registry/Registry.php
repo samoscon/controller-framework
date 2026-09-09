@@ -89,7 +89,7 @@ class Registry {
      * The clone and wakeup methods prevents external instantiation of copies of the Singleton class,
      * thus eliminating the possibility of duplicate objects.
      */
-    public function __clone() {
+    public function __clone(): void {
         trigger_error('Clone is not allowed.', E_USER_ERROR);
     }
 
@@ -97,7 +97,7 @@ class Registry {
      * The clone and wakeup methods prevents external instantiation of copies of the Singleton class,
      * thus eliminating the possibility of duplicate objects.
      */
-    public function __wakeup() {
+    public function __wakeup(): void {
         trigger_error('Deserializing is not allowed.', E_USER_ERROR);
     }
     
@@ -107,7 +107,7 @@ class Registry {
      * @return Registry
      */
     public static function instance(): self {
-        if (is_null(self::$instance)) {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
         
@@ -117,7 +117,7 @@ class Registry {
     /**
      * Reset of the registry
      */
-    public static function reset() {
+    public static function reset(): void {
         self::$instance = null; 
     }
     
@@ -128,7 +128,7 @@ class Registry {
      * @throws \Exception If no request has been set
      */
     public function getRequest(): Request {
-        if(is_null($this->request)) {
+        if ($this->request === null) {
             throw new \Exception("No request set");
         }
         
@@ -150,7 +150,7 @@ class Registry {
      * @return InitController
      */
     public function getInitController(): InitController {
-        if (is_null($this->initController)) {
+        if ($this->initController === null) {
             $this->initController = new InitApplicationController();
             $this->handleRequestController = new HandleRequestApplicationController();
 //            Switch between 2 above and below lines depending on which pattern you want to use
@@ -167,7 +167,7 @@ class Registry {
      * @return HandleRequestController
      */
     public function getHandleRequestController(): HandleRequestController {
-        if (is_null($this->handleRequestController)) {
+        if ($this->handleRequestController === null) {
             $this->initController = new InitApplicationController();
             $this->handleRequestController = new HandleRequestApplicationController();
 //            Switch between 2 above and below lines depending on which pattern you want to use
@@ -196,7 +196,7 @@ class Registry {
      * @return Conf Key = 'config' => Value = content of the [config] section in the app_options.ini file
      */
     public function getAppConfig(): Conf {
-        if (is_null($this->conf)) {
+        if ($this->conf === null) {
             $this->conf = new Conf();
         }
         
@@ -218,16 +218,20 @@ class Registry {
      * @return Conf
      */
     public function getCommands(): Conf {
+        if ($this->commands === null) {
+            throw new \RuntimeException("No commands configured");
+        }
+
         return $this->commands;
     }
-    
+
     /**
      * Returns LoginManager
      * 
      * @return LoginManager
      */
     function getLoginManager(): LoginManager {
-        if (is_null($this->loginManager)) {
+        if ($this->loginManager === null) {
             $this->loginManager = new LoginManager();
         }
         
@@ -240,7 +244,7 @@ class Registry {
      * @return \PDO PHP Database Object
      */
     function getDb(): \PDO {
-        if (is_null($this->db)) {
+        if ($this->db === null) {
             $this->db = new \PDO(
                 "mysql:host=" . _DBHOST . ";dbname=" . _DBNAME,
                 _DBUSER,

@@ -88,26 +88,47 @@ abstract class InitController {
      * @throws \Exception When options file could not be found
      */
     private function setupOptions(): void {
-        if (! file_exists($this->config)) {
-            throw new \Exception("Could not find options file : $this->config");
+        if (!is_file($this->config)) {
+            throw new \RuntimeException(
+                "Could not find options file: " . $this->config
+            );
         }
-        
-        $options = parse_ini_file($this->config, TRUE);
-        
+
+        $options = parse_ini_file($this->config, true);
+
+        if ($options === false) {
+            throw new \RuntimeException(
+                "Could not parse options file: " . $this->config
+            );
+        }
+
+        if (!isset($options['config']) || !is_array($options['config'])) {
+            throw new \RuntimeException(
+                "Missing [config] section in options file: " . $this->config
+            );
+        }
+
+        if (!isset($options['globals']) || !is_array($options['globals'])) {
+            throw new \RuntimeException(
+                "Missing [globals] section in options file: " . $this->config
+            );
+        }
+
         $conf = new Conf($options['config']);
         $conf->set('applicationRoot', $this->applicationRoot);
-        
+
         $this->reg->setAppConfig($conf);
-        
+
         foreach ($options['globals'] as $name => $global) {
             define($name, $global);
         }
-        
-        $this->controlsfile = realpath("./") . $conf->get('controlsfile');
+
+        $this->controlsfile = $this->applicationRoot . $conf->get('controlsfile');
+
         $commands = $this->setupCommands($options, $this->controlsfile);
-        
+
         $this->reg->setCommands($commands);
-    }
+    }   
     
     /**
      * Set up of the commands as defined in $config file or in the controls.xml file

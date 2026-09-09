@@ -30,7 +30,7 @@ class User {
      */
     public static function getInstance(int $memberid = 0): ?\model\Member
     {
-        if (is_null(self::$instance)) {
+        if (self::$instance === null) {
             self::$instance = \model\Member::find($memberid);
         }
 

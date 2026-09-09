@@ -46,12 +46,13 @@ class ViewRenderComponent implements RenderComponent {
         $conf = $reg->getAppConfig();
         $path = $conf->get("templatepath");
         
-        if (is_null($path)) {
+        if ($path === null) {
             throw new \Exception("no template directory");
         }
         
-        $fullpath = realpath('./') . $path . $this->name.".php";
-        
+        $applicationRoot = $reg->getAppConfig()->get('applicationRoot');
+        $fullpath = $applicationRoot . $path . $this->name . ".php";
+
         if(!file_exists($fullpath)) {
             throw new \Exception("no template at $fullpath");
         }

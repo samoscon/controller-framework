@@ -47,10 +47,6 @@ class ForwardRenderComponent implements RenderComponent {
         $conf = $reg->getAppConfig();
         $path = $conf->get("forwardpath") ?? '';
         
-//        if (is_null($path)) {
-//            throw new \Exception("no forward hostname - path");
-//        }
-        
         $fullpath = $path.  $this->path;
         
         $requestparams = $request->get("forwardqueryparams");

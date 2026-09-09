@@ -24,22 +24,22 @@ class CliRequest extends Request {
      */
     #[\Override]
     public function init(): void {
-        $args = $_SERVER['argv'];
-        
+        $args = $_SERVER['argv'] ?? [];
+
         foreach ($args as $arg) {
             if (preg_match("/^path:(\S+)/", $arg, $matches)) {
                 $this->path = $matches[1];
             } else {
-                if (strpos($arg, '=')) {
-                    list($key, $val) = explode("=", $arg);
-                    $this->setProperty($key, $val);
+                if (strpos($arg, '=') !== false) {
+                    [$key, $val] = explode("=", $arg, 2);
+                    $this->set($key, $val);
                 }
             }
         }
-        
+
         $this->path = (empty($this->path)) ? "/" : $this->path;
     }
-    
+
     /**
      * Forwards the request to the next path
      * 

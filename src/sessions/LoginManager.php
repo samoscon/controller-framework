@@ -231,7 +231,7 @@ class LoginManager implements AuditableItem {
     /**
      * Stops and removes the SESSION
      */
-    public function logout() {
+    public function logout(): void {
         $memberid = isset($_SESSION[APP.'_memberID'])
             ? (int) $_SESSION[APP.'_memberID']
             : null;

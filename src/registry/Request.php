@@ -46,10 +46,9 @@ abstract class Request {
     /**
      * Constructor
      * 
-     * @return Request
      */
     public function __construct() {
-        return $this->init();
+        $this->init();
     }
     
     /**
@@ -110,7 +109,7 @@ abstract class Request {
      * @param string $msg
      */
     public function addFeedback(string $msg): void {
-        array_push($this->feedback, $msg);
+        $this->feedback[] = $msg;
     }
     
     /**
