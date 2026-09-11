@@ -46,17 +46,17 @@ class ForwardRenderComponent implements RenderComponent {
         $reg = Registry::instance();
         $conf = $reg->getAppConfig();
         $path = $conf->get("forwardpath") ?? '';
-        
-        $fullpath = $path.  $this->path;
-        
+
+        $fullpath = $path . $this->path;
+
         $requestparams = $request->get("forwardqueryparams");
         $params = '';
-        if($requestparams){
-            $params = '?';
-            foreach ($requestparams as $key => $value) {
-                $params .= $key . '=' . $value . '&';
-            }
+
+        if ($requestparams) {
+            $params = '?' . http_build_query($requestparams);
         }
+
         $request->forward($fullpath . $params);
     }
+
 }

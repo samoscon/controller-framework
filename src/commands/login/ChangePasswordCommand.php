@@ -30,25 +30,32 @@ class ChangePasswordCommand extends \controllerframework\controllers\Command {
 
         /** Check that the page was requested from itself via the POST method. */
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $password = filter_var($request->get('password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $passwordIsEmpty = $password ? false : true;
-            
-            $password2 = filter_var($request->get('password2'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $password2IsEmpty = $password2 ? false : true;
-
-            $passwordIsValid = $password !== $password2 ? false : true;
-
-            if (!$passwordIsEmpty && !$password2IsEmpty && $passwordIsValid) {
-                $this->reg->getLoginManager()->changePassword($user, $password);
-                $user->ownpwd = 1;
-                return $this->loginChecks($user);
-            }
+            /** Validate CSRF token before processing the password change. */ 
+            if (!$this->validateCsrfToken($request)) { 
+                $request->set('errorcode', 'InvalidCsrfToken');
+                return self::CMD_ERROR;
+            } else { 
+                $password = (string) $request->get('password'); 
+                $passwordIsEmpty = $password ? false : true; 
+                
+                $password2 = (string) $request->get('password2'); 
+                $password2IsEmpty = $password2 ? false : true; 
+                
+                $passwordIsValid = $password !== $password2 ? false : true; 
+                
+                if (!$passwordIsEmpty && !$password2IsEmpty && $passwordIsValid) { 
+                    $this->reg->getLoginManager()->changePassword($user, $password); 
+                    $user->ownpwd = 1; 
+                    return $this->loginChecks($user);                     
+                }                 
+            }             
         }
         
         /** the page was requested via the GET method or the POST method did not return a status. */
         foreach (get_object_vars($user) as $key => $value) {
             $responses[$key] = $value;
         }
+        $responses['csrf_token'] = $this->getCsrfToken();
         $responses['passwordIsValid'] = $passwordIsValid;
         $responses['passwordIsEmpty'] = $passwordIsEmpty;
         $responses['password2IsEmpty'] = $password2IsEmpty;
