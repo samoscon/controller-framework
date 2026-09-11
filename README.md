@@ -1,6 +1,12 @@
 # controllerFramework
 MVC controller Framework based on book of M. Zandstra PHP 8 Objects, Patterns, and Practise  Resources
 
+## Documentation
+
+For a complete guide to developing a client application with Controller Framework 1.0.30, see the **[Controller Framework 1.0.30 — Client Application Developer Guide](https://samoscon.github.io/2025/11/22/controller-Framework.html)**.
+
+The guide covers the framework architecture, installation, application structure, configuration, `controls.xml`, Commands, Requests, rendering, authentication and sessions, CSRF protection, database/domain objects, members, mail, audit tracing, error handling, security rules, and the recommended development workflow.
+
 Steps to deploy the basic framework in Apache2 web server with Oracle (or MariaDB) database running in a Linux environment:
 
 1. Create a root folder for your project with the name [Your Name of the project root folder]
