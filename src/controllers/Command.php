@@ -13,6 +13,7 @@ use controllerframework\registry\Request;
 use controllerframework\registry\Registry;
 use controllerframework\sessions\Login;
 use controllerframework\members\Member;
+use controllerframework\security\Csrf;
 
 /**
  * Implementation of design pattern 'Command'
@@ -112,6 +113,26 @@ abstract class Command {
         }
     }
     
+
+    /**
+     * Returns the CSRF token for use in a form.
+     *
+     * @return string
+     */
+    protected function getCsrfToken(): string {
+        return Csrf::getToken();
+    }
+
+    /**
+     * Validates the CSRF token supplied with the request.
+     *
+     * @param Request $request
+     * @return bool
+     */
+    protected function validateCsrfToken(Request $request): bool {
+        return Csrf::validate($request->get(Csrf::TOKEN_PARAMETER));
+    }
+
     /**
      * Abstract function to be specialized in the subclass of Command
      * 

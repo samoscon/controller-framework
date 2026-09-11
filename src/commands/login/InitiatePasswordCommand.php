@@ -25,34 +25,44 @@ class InitiatePasswordCommand extends \controllerframework\controllers\Command {
     
     #[\Override]
     public function doExecute(\controllerframework\registry\Request $request): int {
+        // CSRF requires an active session.
+        $this->reg->getLoginManager();
+        
         /** variables */
         $usernameIsFound = true;
         $userIsEmpty = false;
         
         /** Check that the page was requested from itself via the POST method. */
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $username = filter_var($request->get('username'), FILTER_SANITIZE_EMAIL);
-            $userIsEmpty = $username ? false : true;
+            /** Validate CSRF token before processing the password change. */ 
+            if (!$this->validateCsrfToken($request)) { 
+                $request->set('errorcode', 'InvalidCsrfToken');
+                return self::CMD_ERROR;
+            } else { 
+                $username = filter_var($request->get('username'), FILTER_SANITIZE_EMAIL);
+                $userIsEmpty = $username ? false : true;
 
-            $memberid = $this->reg->getLoginManager()->validateUsername($username);
-            $usernameIsFound = $memberid ? true : false;
-            
-            if($usernameIsFound){            
-                $member = \model\Member::find($memberid);
-            
-                if(_MINLEVELTOLOGIN === 'A' && !$member->isAdministrator()) {
-                    $usernameIsFound = false;
+                $memberid = $this->reg->getLoginManager()->validateUsername($username);
+                $usernameIsFound = $memberid ? true : false;
+
+                if($usernameIsFound){            
+                    $member = \model\Member::find($memberid);
+
+                    if(_MINLEVELTOLOGIN === 'A' && !$member->isAdministrator()) {
+                        $usernameIsFound = false;
+                    }
                 }
-            }
-            
-           if (!$userIsEmpty && $usernameIsFound) {
-                $this->reg->getLoginManager()->initiatePassword($memberid);
-                return self::CMD_OK;
+
+               if (!$userIsEmpty && $usernameIsFound) {
+                    $this->reg->getLoginManager()->initiatePassword($memberid);
+                    return self::CMD_OK;
+                }
             }
         }
 
         /** the page was requested via the GET method or the POST method did not return a status. */
         $this->addResponses($request, [
+            'csrf_token' => $this->getCsrfToken(),
             'usernameIsFound' => $usernameIsFound,
             'userIsEmpty' => $userIsEmpty,
             'returnpath' => _APPDIR.'']);
