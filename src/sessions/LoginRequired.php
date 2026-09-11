@@ -69,17 +69,24 @@ abstract class LoginRequired extends Login {
      * 
      * @return boolean
      */
-    private function checkLastActiveTime(): bool {
-//        $timeOfInactivityAllowed = $_SESSION['rememberMe'] ? ($this->lastActive * 1000 * 96 * 30) : $this->lastActive;
-//
-//        if(($_SESSION['lastActive'] < time() - 1 * $timeOfInactivityAllowed)) {
-//            return false;
-//        }
+    private function checkLastActiveTime(): bool
+    {
+        if ($_SESSION['rememberMe'] ?? false) {
+            return true;
+        }
+
+        if (
+            !isset($_SESSION['lastActive']) ||
+            $_SESSION['lastActive'] < time() - $this->lastActive
+        ) {
+            return false;
+        }
+
         $_SESSION['lastActive'] = time();
-//        setcookie('PHPSESSID', session_id(), time() + (1000 * $this->lastActive));
+
         return true;
     }
-    
+
     /**
      * Sets the $lastactive property of the concrete object
      * 
