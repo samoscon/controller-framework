@@ -3,7 +3,7 @@ MVC controller Framework based on book of M. Zandstra PHP 8 Objects, Patterns, a
 
 ## Documentation
 
-For a complete guide to developing a client application with Controller Framework 1.0.30, see the **[Controller Framework 1.0.30 — Client Application Developer Guide](https://samoscon.github.io/2025/11/22/controller-Framework.html)**.
+For a complete guide to developing a client application with Controller Framework 1.0.30, see the **[Controller Framework 1.0.30 — Client Application Developer Guide](https://samoscon.github.io/2026/09/11/controller-Framework-Client-Application-Developer-Guide.html)**.
 
 The guide covers the framework architecture, installation, application structure, configuration, `controls.xml`, Commands, Requests, rendering, authentication and sessions, CSRF protection, database/domain objects, members, mail, audit tracing, error handling, security rules, and the recommended development workflow.
 
