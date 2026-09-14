@@ -1,29 +1,107 @@
 # controllerFramework
-MVC controller Framework based on book of M. Zandstra PHP 8 Objects, Patterns, and Practise  Resources
+
+MVC Controller Framework based on the book *PHP 8 Objects, Patterns, and Practice* by M. Zandstra.
 
 ## Documentation
 
-For a complete guide to developing a client application with Controller Framework 1.0.30, see the **[Controller Framework 1.0.30 — Client Application Developer Guide](https://samoscon.github.io/2026/09/11/controller-Framework-Client-Application-Developer-Guide.html)**. A basic example application, see **[Controller Framework 1.0.30 — Basic example guide](https://samoscon.github.io/2025/11/10/controller-Framework-Basic-Example.html)**.
+For a complete guide to developing a client application with Controller Framework 1.0.31, see the **[Controller Framework 1.0.31 — Client Application Developer Guide](https://samoscon.github.io/2026/09/11/controller-Framework-Client-Application-Developer-Guide.html)**.
 
-The guide covers the framework architecture, installation, application structure, configuration, `controls.xml`, Commands, Requests, rendering, authentication and sessions, CSRF protection, database/domain objects, members, mail, audit tracing, error handling, security rules, and the recommended development workflow.
+For a basic example application, see the **[Controller Framework 1.0.31 — Basic Example Guide](https://samoscon.github.io/2025/11/10/controller-Framework-Basic-Example.html)**.
 
-Steps to deploy the basic framework in Apache2 web server with Oracle (or MariaDB) database running in a Linux environment:
+The guide covers the framework architecture, installation, application structure, configuration, `controls.xml`, Commands, Requests, rendering, authentication and sessions, CSRF protection, access tokens, database/domain objects, members, mail, audit tracing, error handling, security rules, and the recommended development workflow.
 
-1. Create a root folder for your project with the name [Your Name of the project root folder]
-2. Execute in your project root folder "composer init". Add following dependencies to your composer.json:
+## Installation
 
-    "require": {
-        "samoscon/controller-framework": "^1.0"
-    }
+The following steps describe how to deploy the basic Controller Framework application on an Apache2 web server with a MySQL/MariaDB database running in a Linux environment.
 
-3. Execute in your project root folder "composer install".
-4. Copy the files and folders under ./vendor/samoscon/controller-framework/example/ to your root folder
-5. Set-up a datebase with the DatabaseSetup.sql to set-up your members table
-6. Update the ./config/app_options.ini file with your passwords and settings
-7. Insert manually a first member with a [name], [email], role = "A", active = "1", subscriptionuntil = "2099-12-31" 
-        (no password required, as you will set-up a password during your first login) in your database
+1. Create a root folder for your project with the name `[Your Project Root Folder]`.
 
-AND YOUR READY TO TEST AND DEVELOP YOUR OWN PROJECT
+2. Execute the following command in your project root folder:
+
+   ```bash
+   composer init
+   ```
+
+   Add the following dependency to your `composer.json`:
+
+   ```json
+   "require": {
+       "samoscon/controller-framework": "^1.0"
+   }
+   ```
+
+3. Execute:
+
+   ```bash
+   composer install
+   ```
+
+4. Copy the files and folders under:
+
+   ```text
+   ./vendor/samoscon/controller-framework/example/
+   ```
+
+   to your project root folder.
+
+5. Set up a MySQL/MariaDB database using `DatabaseSetup.sql` to create the required members table.
+
+6. Update:
+
+   ```text
+   ./config/app_options.ini
+   ```
+
+   with your database credentials, passwords, and other application settings.
+
+7. Insert a first member manually into the database with:
+
+   * `[name]` — the member's name
+   * `[email]` — the member's email address
+   * `role = "A"`
+   * `active = "1"`
+   * `subscriptionuntil = "2099-12-31"`
+
+   No password is required at this stage, as the password can be configured during the first login.
+
+You are now ready to test the framework and start developing your own application.
+
+---
+
+## Security
+
+The Controller Framework provides several mechanisms to protect client applications, including:
+
+* authentication and session management
+* CSRF protection
+* password hashing and verification
+* access tokens
+* audit tracing
+* controlled error handling
+* security-related configuration
+
+Application developers remain responsible for correctly configuring and using these mechanisms in their client applications.
+
+### AccessToken
+
+Controller Framework 1.0.31 introduces the `AccessToken` class in the `controllerframework\security` namespace.
+
+`AccessToken` provides an additional token-based security mechanism for protecting URLs or actions that require access beyond the normal application authentication mechanism.
+
+It can be used, for example, for URLs that need an additional secret token before access is granted.
+
+The token should be treated as a secret credential. Applications must therefore:
+
+* generate tokens using secure random values;
+* avoid exposing tokens unnecessarily;
+* transmit tokens only over HTTPS;
+* validate tokens before performing the protected operation;
+* avoid logging tokens in application or audit logs;
+* apply an appropriate lifetime or invalidation mechanism where required.
+
+The `AccessToken` mechanism is intended as an additional security layer. It does not replace normal authentication, authorization, CSRF protection, or HTTPS.
+
+---
 
 ## Security Considerations
 
