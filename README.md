@@ -8,6 +8,9 @@ For a complete guide to developing a client application with Controller Framewor
 
 For a basic example application, see the **[Controller Framework 1.0.31 — Basic Example Guide](https://samoscon.github.io/2025/11/10/controller-Framework-Basic-Example.html)**.
 
+For a complete technical guidance, see the **[Controller Framework 1.0.31 — Technical Guide](https://samoscon.github.io/2025/11/11/controller-Framework-Technical-Guide.html)**.
+
+
 The guide covers the framework architecture, installation, application structure, configuration, `controls.xml`, Commands, Requests, rendering, authentication and sessions, CSRF protection, access tokens, database/domain objects, members, mail, audit tracing, error handling, security rules, and the recommended development workflow.
 
 ## Installation
