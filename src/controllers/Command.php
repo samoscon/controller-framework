@@ -63,6 +63,7 @@ abstract class Command {
         } else {
             $request->set('errorcode', 'NoValidLogin');
             $params= $request->get("id") ? '?id='.$request->get("id") : '';
+            $params.=$request->get('token') ? '&token='.$request->get('token') : '';
             $originalPath = $request->getPath().$params;
             setcookie('originalPath', $originalPath, time() + 120, '/');
             $status = self::CMD_ERROR;            
