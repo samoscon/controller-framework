@@ -113,8 +113,7 @@ class MailerQueue
         $htmlbody =
             '<html>' .
             '<body>' .
-            '<img src="' . _APPDIR .
-            'assets/'.APP.'.jpg" alt="Image" /><br/>' .
+            '<img src="' . _APPDIR . _LOGO.'" alt="Logo" width="35%" /><br/>' .
             $body .
             '</body>' .
             '</html>';
