@@ -58,7 +58,7 @@ class LoginManager implements AuditableItem {
                 'path'     => '/',
                 'secure'   => true,
                 'httponly' => true,
-                'samesite' => 'Lax'
+                'samesite' => 'None'
             ]);
 
             ini_set('session.use_strict_mode', '1');
