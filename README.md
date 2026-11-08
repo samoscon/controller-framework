@@ -4,11 +4,11 @@ MVC Controller Framework based on the book *PHP 8 Objects, Patterns, and Practic
 
 ## Documentation
 
-For a complete guide to developing a client application with Controller Framework 1.0.31, see the **[Controller Framework 1.0.31 — Client Application Developer Guide](https://samoscon.github.io/2026/09/11/controller-Framework-Client-Application-Developer-Guide.html)**.
+For a complete guide to developing a client application with Controller Framework 1.0.34, see the **[Controller Framework 1.0.34 — Client Application Developer Guide](https://samoscon.github.io/2026/09/11/controller-Framework-Client-Application-Developer-Guide.html)**.
 
-For a basic example application, see the **[Controller Framework 1.0.31 — Basic Example Guide](https://samoscon.github.io/2025/11/10/controller-Framework-Basic-Example.html)**.
+For a basic example application, see the **[Controller Framework 1.0.34 — Basic Example Guide](https://samoscon.github.io/2025/11/10/controller-Framework-Basic-Example.html)**.
 
-For a complete technical guidance, see the **[Controller Framework 1.0.31 — Technical Guide](https://samoscon.github.io/2025/11/11/controller-Framework-Technical-Guide.html)**.
+For a complete technical guidance, see the **[Controller Framework 1.0.34 — Technical Guide](https://samoscon.github.io/2025/11/11/controller-Framework-Technical-Guide.html)**.
 
 
 The guide covers the framework architecture, installation, application structure, configuration, `controls.xml`, Commands, Requests, rendering, authentication and sessions, CSRF protection, access tokens, database/domain objects, members, mail, audit tracing, error handling, security rules, and the recommended development workflow.
@@ -87,7 +87,7 @@ Application developers remain responsible for correctly configuring and using th
 
 ### AccessToken
 
-Controller Framework 1.0.31 introduces the `AccessToken` class in the `controllerframework\security` namespace.
+Controller Framework 1.0 introduces the `AccessToken` class in the `controllerframework\security` namespace.
 
 `AccessToken` provides an additional token-based security mechanism for protecting URLs or actions that require access beyond the normal application authentication mechanism.
 
