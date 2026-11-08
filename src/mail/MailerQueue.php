@@ -60,6 +60,11 @@ class MailerQueue
         $to = null
     ): void {
 
+        // Check whether email sending is enabled.
+        if (!MailConfig::isEnabled()) {
+            return;
+        }
+
         $mailer = self::getMailer();
 
         $email = new \Symfony\Component\Mime\Email();

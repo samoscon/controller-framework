@@ -52,6 +52,12 @@ class Mailer {
      * @param string $to Format: mailaddress<Name>
      */
     public static function sendMail(string $subject, string $body, string $toBcc, ?string $to = null): void {
+
+        // Check whether email sending is enabled.
+        if (!MailConfig::isEnabled()) {
+            return;
+        }
+
         $mailer = self::getMailer();
 
         // Create an Email object
